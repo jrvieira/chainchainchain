@@ -1,12 +1,19 @@
 $(function(){
+	
+	var dummyconsole = {
+		log: function(){},
+		warn: function(){}
+	}
+	if(!console){
+		console = dummyconsole;
+	}
 
 	Object.prototype.findloop = function (a){
 		var arr = a || [this];
 		if(this.chainage){
 			for(var i = 0; i < this.chainage.length; i++){
 				if(arr.indexOf(this.chainage[i])>-1){
-					console.log(this.chainage[i]);
-					throw new Error('loop in chain tree');
+					console.warn('Looping',this.chainage[i]);	throw new Error('loop in chain tree');
 				}else{
 					arr.push(this.chainage[i]);
 					this.chainage[i].findloop(arr);
@@ -55,6 +62,8 @@ $(function(){
 	}
 	
 	Object.prototype.getget = function (p,own,recursion){
+		if(typeof p != 'string'){throw new Error('Getget: property name cannot be '+p+'.');}
+		if(Object.prototype.chain.allowloops == true){console.warn('Getget called while chain.allowloops is set to '+chain.allowloops+'.')}
 		var prop = this[p];
 		var that = (recursion && own)?own:this;
 		if(this.chainage){
@@ -106,6 +115,7 @@ $(function(){
 	}
 	
 	Object.prototype.rawraw = function (p,own){
+		if(typeof p != 'string'){throw new Error('Rawraw: property name cannot be '+p+'.');}
 		var rawraw = [];
 		rawraw.push(this.getget(p,own?this:false,true));
 		if(this.chainage){
