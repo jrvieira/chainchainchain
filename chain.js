@@ -10,29 +10,36 @@ $(function(){
 		return this;
 	}
 	
-	Object.prototype.get = function (p,a){
+	Object.prototype.get = function (p,a,own){
+		var victim = this;
 		var prop = this[p];
 		if(this.chainage){
 			var i = 0;
 			while(prop == undefined && i < this.chainage.length){
 				prop = this.chainage[i][p];
+				if(!own){victim = this.chainage[i]};
 				i ++;
 			}
-			if(prop instanceof Function){
-				var arg = (a instanceof Array) ? a : [];
-				prop = prop.apply(this,arg);
-			}
+		}
+		if(prop instanceof Function){
+			var arg = (a instanceof Array) ? a : [];
+			prop = prop.apply(victim,arg);
 		}
 		return prop;
 	}
 	
-	Object.prototype.getAll = function (p,a){
+	Object.prototype.raw = function (p,a,own){
 		var props = [];
+		if(this[p] instanceof Function){
+			props.push(this[p].apply(this,a));
+		}else{
+			props.push(this[p]);
+		}
 		if(this.chainage){
 			for(var i = 0; i < this.chainage.length; i ++){
 				if(this.chainage[i][p] instanceof Function){
 					var arg = (a instanceof Array) ? a : [];
-					props.push(this.chainage[i][p].apply(this,arg))
+					props.push(this.chainage[i][p].apply((own ? this : this.chainage[i]),arg));
 				}else{
 					props.push(this.chainage[i][p]);
 				}
@@ -47,7 +54,7 @@ $(function(){
 				this.chainage = [];
 			}else{
 				for(var i = 0; i < arguments.length; i ++){
-					if(this.chainage[arguments[i]]){
+					while(this.chainage.indexOf(arguments[i]) > -1){
 						this.chainage.splice(this.chainage.indexOf(arguments[i]),1);
 					}
 				}
@@ -71,7 +78,7 @@ $(function(){
 			this.chainage = [];
 		}
 		for(var i = arguments.length; i > 0; i --){
-			this.chainage.unshift(arguments[i]);
+			this.chainage.unshift(arguments[i-1]);
 		}
 	}
 	
