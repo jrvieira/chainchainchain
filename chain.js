@@ -47,11 +47,16 @@ $(function(){
 	}
 	
 	Object.prototype.raw = function (p,a,own){
-		var raw = [];
-		raw.push(this.get(p,a,own));
+		var victim = this;
+		var raw = [this[p]];
 		if(this.chainage){
 			for(var i = 0; i < this.chainage.length; i ++){
-				raw.push(this.chainage[i].get(p,a,own));
+				var prop = this.chainage[i][p];
+				if(prop instanceof Function){
+					raw.push(prop.apply( (own ? this : this.chainage[i]),a));
+				}else{
+					raw.push(prop);
+				}
 			}
 		}
 		return raw;
