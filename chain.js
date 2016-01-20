@@ -1,4 +1,21 @@
 $(function(){
+	//UNDOCUMENTED
+	Object.prototype.findloop = function (a){
+		var arr = a || [this];
+		if(this.chainage){
+			for(var i = 0; i < this.chainage.length; i++){
+				if(arr.indexOf(this.chainage[i])>-1){
+					console.log(this.chainage[i]);
+					throw new Error('loop in chain tree');
+				}else{
+					arr.push(this.chainage[i]);
+					this.chainage[i].findloop(arr);
+				}
+			}
+		}else{
+			return false;
+		}
+	}
 	
 	Object.prototype.chain = function (){
 		if(!this.chainage){
@@ -6,9 +23,13 @@ $(function(){
 		}
 		for(var i = 0; i < arguments.length; i++){
 			this.chainage.push(arguments[i]);
+			if(Object.prototype.chain.allowloops == false){
+				this.findloop();
+			}
 		}
 		return this;
-	}
+	}//UNDOCUMENTED
+	Object.prototype.chain.allowloops = false;
 	
 	Object.prototype.get = function (p,a,own){
 		var victim = this;
@@ -47,13 +68,12 @@ $(function(){
 	}
 	
 	Object.prototype.raw = function (p,a,own){
-		var victim = this;
 		var raw = [this[p]];
 		if(this.chainage){
 			for(var i = 0; i < this.chainage.length; i ++){
 				var prop = this.chainage[i][p];
 				if(prop instanceof Function){
-					raw.push(prop.apply( (own ? this : this.chainage[i]),a));
+					raw.push(prop.apply((own ? this : this.chainage[i]),a));
 				}else{
 					raw.push(prop);
 				}
