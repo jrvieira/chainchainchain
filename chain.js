@@ -22,30 +22,21 @@ $(function(){
 			}
 		}
 		if(prop instanceof Function){
-			var arg = (a instanceof Array) ? a : [];
-			prop = prop.apply(victim,arg);
+			var a = (a instanceof Array) ? a : [];
+			prop = prop.apply(victim,a);
 		}
 		return prop;
 	}
 	
 	Object.prototype.raw = function (p,a,own){
-		var props = [];
-		if(this[p] instanceof Function){
-			props.push(this[p].apply(this,a));
-		}else{
-			props.push(this[p]);
-		}
+		var raw = [];
+		raw.push(this.get(p,a,own));
 		if(this.chainage){
 			for(var i = 0; i < this.chainage.length; i ++){
-				if(this.chainage[i][p] instanceof Function){
-					var arg = (a instanceof Array) ? a : [];
-					props.push(this.chainage[i][p].apply((own ? this : this.chainage[i]),arg));
-				}else{
-					props.push(this.chainage[i][p]);
-				}
+				raw.push(this.chainage[i].get(p,a,own));
 			}
 		}
-		return props;
+		return raw;
 	}
 	
 	Object.prototype.dechain = function (){
