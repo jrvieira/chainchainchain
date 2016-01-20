@@ -28,6 +28,24 @@ $(function(){
 		return prop;
 	}
 	
+	Object.prototype.getget = function (p,a,own,target){
+		var victim = target||this;
+		var prop = this[p];
+		if(this.chainage){
+			var i = 0;
+			while(prop == undefined && i < this.chainage.length){
+				prop = this.chainage[i].getget(p,a,own,(own ? this : undefined));
+				if(!own&&!target){victim = this.chainage[i]};
+				i ++;
+			}
+		}
+		if(prop instanceof Function){
+			var a = (a instanceof Array) ? a : [];
+			prop = prop.apply(victim,a);
+		}
+		return prop;
+	}
+	
 	Object.prototype.raw = function (p,a,own){
 		var raw = [];
 		raw.push(this.get(p,a,own));
