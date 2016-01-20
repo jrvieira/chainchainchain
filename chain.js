@@ -57,6 +57,17 @@ $(function(){
 		return raw;
 	}
 	
+	Object.prototype.rawraw = function (p,a,own){
+		var raw = [];
+		raw.push(this.getget(p,a,own));
+		if(this.chainage){
+			for(var i = 0; i < this.chainage.length; i ++){
+				raw.push(this.chainage[i].getget(p,a,own));
+			}
+		}
+		return raw;
+	}
+	
 	Object.prototype.dechain = function (){
 		if(this.chainage){
 			if(!arguments.length){
