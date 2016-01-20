@@ -1,5 +1,5 @@
 $(function(){
-	//UNDOCUMENTED
+
 	Object.prototype.findloop = function (a){
 		var arr = a || [this];
 		if(this.chainage){
@@ -28,69 +28,92 @@ $(function(){
 			}
 		}
 		return this;
-	}//UNDOCUMENTED
+	}
 	Object.prototype.chain.allowloops = false;
 	
-	Object.prototype.get = function (p,a,own){
-		var victim = this;
+	Object.prototype.get = function (p,own){
 		var prop = this[p];
+		var that = this;
 		if(this.chainage){
 			var i = 0;
-			while(prop == undefined && i < this.chainage.length){
+			while(typeof prop === 'undefined' && i < this.chainage.length){
+				if(!own){that = this.chainage[i]}
 				prop = this.chainage[i][p];
-				if(!own){victim = this.chainage[i]};
 				i ++;
 			}
 		}
 		if(prop instanceof Function){
-			var a = (a instanceof Array) ? a : [];
-			prop = prop.apply(victim,a);
+			return function (){
+				var args = [];
+				for(var i = 0; i < arguments.length; i ++){
+					args.push(arguments[i]);
+				}
+				return prop.apply(that,args);
+			}
 		}
 		return prop;
 	}
 	
-	Object.prototype.getget = function (p,a,own,target){
-		var victim = target||this;
+	Object.prototype.getget = function (p,own,recursion){
 		var prop = this[p];
+		var that = (recursion && own)?own:this;
 		if(this.chainage){
 			var i = 0;
-			while(prop == undefined && i < this.chainage.length){
-				prop = this.chainage[i].getget(p,a,own,(own ? this : undefined));
-				if(!own&&!target){victim = this.chainage[i]};
+			while(typeof prop === 'undefined' && i < this.chainage.length){
+				if(!own){that = this.chainage[i]}
+				prop = this.chainage[i].getget(p,(own?that:false),true);
 				i ++;
 			}
 		}
 		if(prop instanceof Function){
-			var a = (a instanceof Array) ? a : [];
-			prop = prop.apply(victim,a);
+			return function (){
+				var args = [];
+				for(var i = 0; i < arguments.length; i ++){
+					args.push(arguments[i]);
+				}
+				return prop.apply(that,args);
+			}
 		}
 		return prop;
 	}
 	
-	Object.prototype.raw = function (p,a,own){
+	Object.prototype.raw = function (p,own){
 		var raw = [this[p]];
+		var that = [this];
 		if(this.chainage){
 			for(var i = 0; i < this.chainage.length; i ++){
-				var prop = this.chainage[i][p];
-				if(prop instanceof Function){
-					raw.push(prop.apply((own ? this : this.chainage[i]),a));
-				}else{
-					raw.push(prop);
-				}
+				own ? that.push(this) : that.push(this.chainage[i]);
+				raw.push(this.chainage[i][p]);
 			}
 		}
-		return raw;
+		var raw2 = [];
+		for(var ii = 0; ii < raw.length; ii ++){
+			if(raw[ii] instanceof Function){
+				var meth = raw[ii];
+				var vic = that[ii];
+				raw2.push(function (){
+					var args = [];
+					for(var i = 0; i < arguments.length; i ++){
+						args.push(arguments[i]);
+					}
+					return meth.apply(vic,args);
+				});
+			}else{
+				raw2.push(raw[ii]);
+			}
+		}
+		return raw2;
 	}
 	
-	Object.prototype.rawraw = function (p,a,own){
-		var raw = [];
-		raw.push(this.getget(p,a,own));
+	Object.prototype.rawraw = function (p,own){
+		var rawraw = [];
+		rawraw.push(this.getget(p,own?this:false,true));
 		if(this.chainage){
 			for(var i = 0; i < this.chainage.length; i ++){
-				raw.push(this.chainage[i].getget(p,a,own));
+				rawraw.push(this.chainage[i].getget(p,own?this:false,true));
 			}
 		}
-		return raw;
+		return rawraw;
 	}
 	
 	Object.prototype.dechain = function (){
