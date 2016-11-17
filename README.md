@@ -16,4 +16,4 @@ Liberal pseudo-inheritance JavaScript micro-library for OOP.
 Refer to the website for more information: [chain.jrvieira.com](http://chain.jrvieira.com)
 
 
-###### Chain is licensed under the MIT license.
+###### Licensed under the MIT license.
