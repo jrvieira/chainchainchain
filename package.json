@@ -1,7 +1,7 @@
 {
   "name": "chainchainchain",
   "version": "1.1.1",
-  "description": "Liberal pseudo-inheritance JavaScript microlibrary for OOP.",
+  "description": "Liberal pseudo-inheritance JavaScript micro library for OOP.",
   "main": "chainchainchain.js",
   "directories": {
     "doc": "docs"
