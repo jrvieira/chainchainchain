@@ -1,4 +1,4 @@
-# Chain!
+# chainchainchain
 Liberal pseudo-inheritance JavaScript micro-library for OOP.
 
 ##Installation
@@ -13,7 +13,7 @@ Liberal pseudo-inheritance JavaScript micro-library for OOP.
 
 ##Documentation
 
-Refer to the website for more information: [chain.jrvieira.com](http://chain.jrvieira.com)
+Refer to the website for more information: [chainchainchain.jrvieira.com](http://chain.jrvieira.com)
 
 
 ###### Licensed under the MIT license.

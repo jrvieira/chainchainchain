@@ -2,16 +2,16 @@
   "name": "chainchainchain",
   "version": "1.1.0",
   "description": "Liberal pseudo-inheritance JavaScript micro-library for OOP.",
-  "main": "chain.js",
+  "main": "chainchainchain.js",
   "authors": [
     "José Rafael Vieira"
   ],
   "license": "MIT",
   "keywords": [
     "inheritance",
-    "chain"
+    "chainchainchain"
   ],
-  "homepage": "http://chain.jrvieira.com",
+  "homepage": "http://chainchainchain.jrvieira.com",
   "ignore": [
     "**/.*",
     "node_modules",
