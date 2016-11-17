@@ -3,11 +3,11 @@ Liberal pseudo-inheritance JavaScript micro-library for OOP.
 
 ##Installation
 
-npm
+###npm
 
 	$ npm install chainchainchain
 
-bower
+###bower
 
 	$ bower install chainchainchain
 
