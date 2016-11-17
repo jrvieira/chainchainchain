@@ -24,7 +24,7 @@ SOFTWARE.
 
 (function() {
 
-
+"use strict";
 
 	if(!console){
 		console = {
