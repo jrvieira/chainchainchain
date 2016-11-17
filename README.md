@@ -1,5 +1,5 @@
 # chainchainchain
-Liberal pseudo-inheritance JavaScript micro-library for OOP.
+Liberal pseudo-inheritance JavaScript microlibrary for OOP.
 
 ##Installation
 
