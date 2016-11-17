@@ -1,4 +1,4 @@
-# chain.js
+# Chain.js
 liberal pseudo-inheritance JavaScript micro-library for OOP
 
 Licensed under the MIT license.
