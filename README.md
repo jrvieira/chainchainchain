@@ -1,9 +1,9 @@
-# *Chain!*
+# Chain!
 Liberal pseudo-inheritance JavaScript micro-library for OOP.
 
 ##Documentation
 
-See the website for more information: [chain.jrvieira.com](http://chain.jrvieira.com)
+Refer to the website for more information: [chain.jrvieira.com](http://chain.jrvieira.com)
 
 ##Installation
 
@@ -16,4 +16,4 @@ See the website for more information: [chain.jrvieira.com](http://chain.jrvieira
 	$ bower install chainchainchain
 
 
-Licensed under the MIT license.
+###### Chain is licensed under the MIT license.
