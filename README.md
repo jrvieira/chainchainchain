@@ -8,10 +8,10 @@ Documentation:
 
 ##Installation
 
-#npm
+npm
 
 	$ npm install chainchainchain
 
-#bower
+bower
 
 	$ bower install chainchainchain
