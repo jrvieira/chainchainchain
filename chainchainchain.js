@@ -22,183 +22,84 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-(function() {
+/*TODO
+OK	chain
+OK	dechain
+OK	inchain
+ok	rechain
+	get
+	getget
+	raw
+	rawraw
+	findloop-allowloops
 
-"use strict";
+	module export
 
-	if(!console){
-		console = {
-			log: function(){},
-			warn: function(){}
+	test rechain for multiple instances of same obhect in chain
+	make warning when multiple instances of same object in chain
+*/
+
+module.exports = chain;
+
+'use strict';
+
+const ch_ = {
+	//adds objects to chain
+	add: function () {
+		this.ch = this.ch || []; //guarantees chain array
+		for (let i = 0; i < arguments.length; i ++) { //adds objects to chain
+			this.ch.push(arguments[i]);
 		}
+		//FINDLOOP
+		return this;
+	},
+	//removes objects from chain
+	rem: function () {
+		if(this.ch){
+			if(!arguments.length){
+				this.ch = [];
+			}else{
+				for(let i = 0; i < arguments.length; i ++){
+					while(this.ch.indexOf(arguments[i]) > -1){
+						this.ch.splice(this.ch.indexOf(arguments[i]),1);
+					}
+				}
+			}
+		}
+		return this;
+	},
+	//prepends objects to chain
+	pre: function () {
+		this.ch = this.ch || []; //guarantees chain array
+		for (let i = arguments.length; i > 0; i --) { //prepends objects to chain
+			this.ch.unshift(arguments[i]);
+		}
+		//FINDLOOP
+		return this;
+	},
+	//replaces objects in chain
+	rep: function (x,o) {
+		this.ch = this.ch || []; //guarantees chain array
+		if(!(this.ch.indexOf(x) < 0)){ //replaces objects in chain
+			this.ch.splice(this.ch.indexOf(x),1,o);
+		}
+		//test this for multiple instances of same object in chain
+		//FINDLOOP
+		return this;
 	}
+}
 
-	Object.defineProperties(Object.prototype, {
-		findloop: {
-			value: function (a){
-				var arr = a || [this];
-				if(this.chainage){
-					for(var i = 0; i < this.chainage.length; i++){
-						if(arr.indexOf(this.chainage[i])>-1){
-							console.warn('Looping',this.chainage[i]);	throw new Error('loop in chain tree');
-						}else{
-							arr.push(this.chainage[i]);
-							this.chainage[i].findloop(arr);
-						}
-					}
-				}else{
-					return false;
-				}
-			}
-		},
-		chain: {
-			value: function (){
-				if(!this.chainage){
-					this.chainage = [];
-				}
-				for(var i = 0; i < arguments.length; i++){
-					this.chainage.push(arguments[i]);
-					if(Object.prototype.chain.allowloops == false){
-						this.findloop();
-					}
-				}
-				return this;
-			}
-		},
-		get: {
-			value: function (p,own){
-				var prop = this[p];
-				var that = this;
-				if(this.chainage){
-					var i = 0;
-					while(typeof prop === 'undefined' && i < this.chainage.length){
-						if(!own){that = this.chainage[i]}
-						prop = this.chainage[i][p];
-						i ++;
-					}
-				}
-				if(prop instanceof Function){
-					return function (){
-						var args = [];
-						for(var i = 0; i < arguments.length; i ++){
-							args.push(arguments[i]);
-						}
-						return prop.apply(that,args);
-					}
-				}
-				return prop;
-			}
-		},
-		getget: {
-			value: function (p,own,recursion){
-				if(typeof p != 'string'){throw new Error('Getget: property name cannot be '+p+'.');}
-				if(Object.prototype.chain.allowloops == true){console.warn('Getget called while chain.allowloops is set to '+chain.allowloops+'.')}
-				var prop = this[p];
-				var that = (recursion && own)?own:this;
-				if(this.chainage){
-					var i = 0;
-					while(typeof prop === 'undefined' && i < this.chainage.length){
-						if(!own){that = this.chainage[i]}
-						prop = this.chainage[i].getget(p,(own?that:false),true);
-						i ++;
-					}
-				}
-				if(prop instanceof Function){
-					return function (){
-						var args = [];
-						for(var i = 0; i < arguments.length; i ++){
-							args.push(arguments[i]);
-						}
-						return prop.apply(that,args);
-					}
-				}
-				return prop;
-			}
-		},
-		raw: {
-			value: function (p,own){
-				var raw = [this[p]];
-				var that = [this];
-				if(this.chainage){
-					for(var i = 0; i < this.chainage.length; i ++){
-						own ? that.push(this) : that.push(this.chainage[i]);
-						raw.push(this.chainage[i][p]);
-					}
-				}
-				var raw2 = [];
-				for(var ii = 0; ii < raw.length; ii ++){
-					if(raw[ii] instanceof Function){
-						var meth = raw[ii];
-						var vic = that[ii];
-						raw2.push(function (){
-							var args = [];
-							for(var i = 0; i < arguments.length; i ++){
-								args.push(arguments[i]);
-							}
-							return meth.apply(vic,args);
-						});
-					}else{
-						raw2.push(raw[ii]);
-					}
-				}
-				return raw2;
-			}
-		},
-		rawraw: {
-			value: function (p,own){
-				if(typeof p != 'string'){throw new Error('Rawraw: property name cannot be '+p+'.');}
-				var args = [];
-				args.push(this.getget(p,own?this:false,true));
-				if(this.chainage){
-					for(var i = 0; i < this.chainage.length; i ++){
-						args.push(this.chainage[i].getget(p,own?this:false,true));
-					}
-				}
-				return args;
-			}
-		},
-		dechain: {
-			value: function (){
-				if(this.chainage){
-					if(!arguments.length){
-						this.chainage = [];
-					}else{
-						for(var i = 0; i < arguments.length; i ++){
-							while(this.chainage.indexOf(arguments[i]) > -1){
-								this.chainage.splice(this.chainage.indexOf(arguments[i]),1);
-							}
-						}
-					}
-				}
-				return this;
-			}
-		},
-		rechain: {
-			value: function (x,o){
-				if(!this.chainage){
-					this.chainage = [];
-				}
-				if(!(this.chainage.indexOf(x) < 0)){
-					this.chainage.splice(this.chainage.indexOf(x),1,o);
-				}
-				return this;
-			}
-		},
-		inchain: {
-			value: function (){
-				if(!this.chainage){
-					this.chainage = [];
-				}
-				for(var i = arguments.length; i > 0; i --){
-					this.chainage.unshift(arguments[i-1]);
-				}
-				return this;
-			}
-		}
-	})
+//prepares object for chain
+function chain (o,oo) { //object, object or array of objects to add to chain
+	o.ch = []; //resets and attributes chain array
+	if (oo) { //adds oo to chain
+		(oo instanceof Array) ? o.ch = o.ch.concat(oo) : o.ch.push(oo);
+	}
+	//adds chain methods to o
+	o.chain = ch_.add;
+	o.dechain = ch_.rem;
+	o.inchain = ch_.pre;
+	o.rechain = ch_.rep;
 
-	Object.prototype.chain.allowloops = false;
-
-
-
-}());
+	return o;
+}
