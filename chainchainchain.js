@@ -23,83 +23,140 @@ SOFTWARE.
 */
 
 /*TODO
-OK	chain
-OK	dechain
-OK	inchain
-ok	rechain
+	chain
+	dechain
+	inchain
+	rechain
 	get
 	getget
 	raw
 	rawraw
-	findloop-allowloops
+	findloop-allowloops livro[89]
 
-	module export
+	method to retrieve the object from wich the requested prop came from (first prop in raw / rawraw)
 
-	test rechain for multiple instances of same obhect in chain
+OK	module export
+
+	call vs apply vs bindy
+
 	make warning when multiple instances of same object in chain
-*/
+	make ch 'private' livro[89]
 
-module.exports = chain;
+	objects only mode
+
+	evaluation usage: o.chain.val ?
+*/
 
 'use strict';
 
-const ch_ = {
-	//adds objects to chain
+module.exports = chainchainchain;
+//defaults
+chainchainchain.settings = {
+	ownchainonly: true,
+	allowloops: false,
+	
+}
+
+var chi = Symbol();
+
+var handle = {
+	get: function (target, prop) {
+		//get youngest
+		if( prop in target.o ) return target.o[prop];
+		console.log('// ch get young', prop);
+		//return target[prop];
+	},
+	set: function (target, prop, value) {
+		//set youngest
+		if( prop in target.o ) return target.o[prop] = value;
+		console.log('// ch set young', prop);
+		//return target[prop] = value;
+	}
+}
+//this makes the handler replaceable
+var handler = handle;
+
+function Ch (o) {
+	this.o = o;
+	this.ch = [];
+}
+
+function chainchainchain (o) {
+	//if already initd return o's Ch
+	if (o[chi] instanceof Ch) return o[chi];
+
+	console.log('// ch init');
+
+	var proxy = new Proxy(new Ch(o), handler);
+	//typeof chi === 'symbol'
+	o[chi] = proxy;
+
+	return proxy;
+
+}
+
+const ch_ = Object.freeze({
+	//adds objects to chain or returns chain when called with no arguments
 	add: function () {
-		this.ch = this.ch || []; //guarantees chain array
-		for (let i = 0; i < arguments.length; i ++) { //adds objects to chain
-			this.ch.push(arguments[i]);
+		if(!arguments.length){ //returns chain when called with no arguments
+			return this._ch;
+		} else {
+			this._ch = this._ch || []; //guarantees chain array
+			for (let i = 0; i < arguments.length; i ++) { //adds objects to chain
+				this._ch.push(arguments[i]);
+			}
+			//FINDLOOPS
+			return this;
 		}
-		//FINDLOOP
-		return this;
 	},
 	//removes objects from chain
-	rem: function () {
-		if(this.ch){
-			if(!arguments.length){
-				this.ch = [];
+	remove: function () {
+		if(this._ch){
+			if(!arguments.length){ //clears the chain when called with no arguments
+				this._ch = [];
 			}else{
-				for(let i = 0; i < arguments.length; i ++){
-					while(this.ch.indexOf(arguments[i]) > -1){
-						this.ch.splice(this.ch.indexOf(arguments[i]),1);
-					}
+				for (let i = 0; i < arguments.length; i ++) {	
+					this._ch = this._ch.filter(function (o) {
+					    return o !== arguments[i];
+					});
 				}
 			}
 		}
 		return this;
 	},
 	//prepends objects to chain
-	pre: function () {
-		this.ch = this.ch || []; //guarantees chain array
+	prepend: function () {
+		this._ch = this._ch || []; //guarantees chain array
 		for (let i = arguments.length; i > 0; i --) { //prepends objects to chain
-			this.ch.unshift(arguments[i]);
+			this._ch.unshift(arguments[i-1]);
 		}
-		//FINDLOOP
+		//FINDLOOPS
 		return this;
 	},
 	//replaces objects in chain
-	rep: function (x,o) {
-		this.ch = this.ch || []; //guarantees chain array
-		if(!(this.ch.indexOf(x) < 0)){ //replaces objects in chain
-			this.ch.splice(this.ch.indexOf(x),1,o);
+	replace: function (x,o) {
+		this._ch = this._ch || []; //guarantees chain array
+		while(!(this._ch.indexOf(x) < 0)){ //replaces objects in chain
+			this._ch.splice(this._ch.indexOf(x),1,o);
 		}
 		//test this for multiple instances of same object in chain
-		//FINDLOOP
+		//FINDLOOPS
 		return this;
-	}
-}
+	}/*,
+	getproxy: function (caller) {
 
-//prepares object for chain
-function chain (o,oo) { //object, object or array of objects to add to chain
-	o.ch = []; //resets and attributes chain array
-	if (oo) { //adds oo to chain
-		(oo instanceof Array) ? o.ch = o.ch.concat(oo) : o.ch.push(oo);
-	}
-	//adds chain methods to o
-	o.chain = ch_.add;
-	o.dechain = ch_.rem;
-	o.inchain = ch_.pre;
-	o.rechain = ch_.rep;
+		return proxy = new Proxy({}, {
+			get: function (obj, prop) {
+				console.log(caller, obj, prop);
+				return 'gotten value';
+			}
+			//,
+			//set: function (obj, prop, value) {
+			//	console.log(caller, t, n, v);
+			//	//set value
+			//}
+		})
 
-	return o;
-}
+	}
+	*/
+});
