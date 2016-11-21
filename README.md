@@ -11,6 +11,12 @@ bower
 
 	$ bower install chainchainchain
 
+##Usage
+
+```javascript
+const chain = require('chainchainchain');
+```
+
 ##Documentation
 
 Refer to the website for more information: [chainchainchain.jrvieira.com](http://chainchainchain.jrvieira.com)
