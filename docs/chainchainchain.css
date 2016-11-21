@@ -1,0 +1,275 @@
+body {
+	color: #333;
+	font: 11px/20px "Lucida Grande", Lucida, Verdana, sans-serif;
+	background-color: #f7f7f7;
+	margin: 0;
+}
+
+.part {
+}
+
+.fixed {
+	position: fixed;
+	width: 100%;
+	border-top: 5px solid #333;
+	top: 0;
+}
+
+.centeralign {
+	margin-right: auto;
+	margin-left: auto;
+	text-align: center;
+}
+
+#fade {
+	height: 72px;
+	width: 100%;
+	background-image: url(img/fade.png);
+	pointer-events: none;
+}
+
+h1 {
+	font-weight: normal;
+	font-style: normal;
+	font-size: 21px;
+}
+
+h3 {
+	font-size: 11px;
+}
+
+#zero {
+	border-bottom: 1px solid #e6e6e6;
+	background-image: url(img/w95.png);
+}
+
+#zero .nav {
+	line-height: 36px;
+	display: inline-block;
+	padding-right: 10px;
+	padding-left: 6px;
+}
+
+p {
+	margin-bottom: 20px;
+}
+
+#zero .nav:first-child {
+	padding-left: 10px !important;
+}
+
+#zero .nav.on a{
+}
+
+#zero a:not(.source) {
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: none;
+	background-color: transparent;
+	border-style: none;
+	font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
+	padding: 0;
+}
+
+#zero a:not(.source):hover {
+	color: #b3b3b3;
+}
+
+a.source {
+	float: right;
+	margin-top: 6px;
+	font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
+	font-weight: normal;
+	font-style: normal;
+	background-color: #1783fb;
+	color: #fff;
+	line-height: 18px;
+	padding: 3px 6px;
+	margin-right: 9px;
+}
+
+a.source:hover {
+	background-color: #fff;
+	color: #333;
+}
+
+a {
+	background-color: #fff;
+	border-bottom: 1px solid #e6e6e6;
+	text-decoration: none;
+	color: #333;
+	font-style: italic;
+	font-weight: bold;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	border-radius: 2px;
+	line-height: 20px;
+	padding: 3px 4px;
+}
+
+a:hover {
+	background-color: #1783fb;
+	color: #fff;
+}
+
+div.usage a {
+	background-color: #f7f7f7;
+}
+
+div.alert a {
+	background-color: #fff;
+}
+
+div.usage a:hover {
+	background-color: #1783fb;
+	color: #fff;
+}
+
+.part {
+	clear: both;
+	margin-top: 23px;
+	padding-bottom: 47px;
+}
+
+.center {
+	width: 360;
+	margin-right: auto;
+	margin-left: auto;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+.index {
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+.col {
+	margin-bottom: 27px;
+	float: left;
+}
+
+div.method {
+	max-width: 400px;
+	padding: 27px 10px 10px;
+	border-radius: 3px;
+}
+
+span.method , h2 {
+	font: italic bold 13px Georgia, "Times New Roman", Times, serif;
+}
+
+span.argument, h3 {
+	font-weight: bold;
+	font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
+}
+
+span.desc {
+	font: italic 12px Georgia, "Times New Roman", Times, serif;
+}
+
+div.usage {
+	background-color: #fff;
+	padding: 16px;
+	margin-top: 13px;
+	border-bottom: 1px solid #e6e6e6;
+	border-radius: 2px;
+}
+
+.arg {
+	margin-bottom: 30px;
+}
+
+span.type {
+	color: #b3b3b3;
+	font-family: "Courier New", Courier, mono;
+}
+
+span.code {
+	color: #999;
+	font-family: "Courier New", Courier, mono;
+	line-height: 9px;
+}
+
+span.black {
+	color: #333;
+	font-weight: bold;
+}
+
+span.fancy {
+	font-weight: bold;
+	font-style: italic;
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+span.blue {
+	color: #1783fb;
+	font-weight: bold;
+}
+
+span.red {
+	color: #d40000;
+}
+
+span.rose {
+	color: #ff007e;
+}
+
+.alert {
+	border-radius: 2px;
+	padding: 10px;
+	margin-top: 10px;
+	background-color: #f7f7f7;
+}
+
+span.value {
+	color: #00ce79;
+}
+
+span.green {
+	color: #00ce79;
+}
+
+div.method:hover {
+	background: url(img/w50.png) repeat;
+}
+
+#about {
+	width: 100%;
+	background-color: #1a1b1d;
+	color: #f7f7f7;
+	padding-top: 20px;
+}
+
+#about a {
+	background-color: #ff007e;
+	border-bottom: 1px solid #d40000;
+	color: #fff;
+	font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
+	font-weight: normal;
+	font-style: normal;
+}
+
+#about a:hover {
+	background-color: #1783fb;
+	border-bottom: 1px solid #000;
+	color: #fff;
+}
+
+#contents p {
+	color: #b3b3b3;
+}
+
+div.front {
+	font: italic bold 41px Georgia, "Times New Roman", Times, serif;
+	text-align: center;
+	margin-bottom: 120px;
+}
+
+.center > p, .center > h1, .center > h2 {
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+span.orange {
+	color: orange;
+}

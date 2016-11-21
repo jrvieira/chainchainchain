@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="author" content="José Rafael Vieira">
+		<meta name="description" content="Liberal pseudo-inheritance JavaScript micro library for OOP.">
+		<meta name="keywords" content="chainchainchain, javascript, library, inheritance">
+
+		<meta name="viewport" content="width=420">
+
+		<title>
+			chainchainchain
+		</title>
+		<link type="image/png" rel="shortcut icon" href="img/icon.png">
+		<link type="text/css" rel="stylesheet" href="chainchainchain.css">
+		<link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/easing.js"></script>
+		<script type="text/javascript" src="js/chain.js"></script>
+
+	</head>
+	<body style="-webkit-text-size-adjust:none;">
+		<div class="fixed">
+			<div id="zero">
+				<div class="center">
+					<div class="nav on">
+					<a href="index.html"><span class="fancy">chainchainchain</span></a>
+					</div>|
+					<div class="nav">
+						<a href="docs.html">Documentation</a>
+					</div>|
+					<div class="nav">
+						<a href="demo.html">Crash course</a>
+					</div>
+					
+					<a title="git-hub" class="source" href="https://github.com/jrvieira/chainchainchain"><i class="fa fa-github-alt fa-fw" aria-hidden="true"></i></a>
+					<a title="raw source" class="source" href="https://raw.githubusercontent.com/jrvieira/chainchainchain/master/chainchainchain.js"><i class="fa fa-code fa-fw" aria-hidden="true"></i></a>
+
+				</div>
+			</div>
+			<div id="fade"></div>
+		</div>
+		<div class="part"></div>
+		<div class="part"></div>
+		<div id="intro" class="part">
+			<div class="center">
+				
+				<div class="front">chainchainchain</div>
+
+				<h1>
+					What is it?
+				</h1>
+				<p>A liberal pseudo-inheritance JavaScript micro library for OOP. It elegantly avoids the <a href="https://en.wikipedia.org/wiki/Multiple_inheritance#The_diamond_problem">diamond problem</a> and is compatible with any <a href="http://www.crockford.com/javascript/inheritance.html">inheritance pattern</a> and other class systems. Take this example:</p>
+				
+				<div class="centeralign"><img src="img/chain1.png"></div>
+				
+				<p>I want both objects <span class="fancy blue">joe</span> and <span class="fancy green">alex</span> to inherit from <span class="fancy">cop</span>. However, since an object can only inherit from one prototype, I had to create two different <span class="fancy">cop</span>s in order to make <span class="fancy blue">joe</span>'s parent inherit from <span class="fancy blue">human</span> and <span class="fancy green">alex</span>'s parent to inherit from <span class="fancy green">robot</span>. But I want the changes I make to <span class="fancy">cop</span> to be reflected on <span class="fancy blue">joe</span> and <span class="fancy green">alex</span>'s behaviour. I want them to inherit from the same <span class="fancy">cop</span>:</p>
+				
+				<div class="centeralign"><img src="img/chain2.png"></div>
+				
+				<p>Not only I want both to inherit from the same <span class="fancy">cop</span>, I want <span class="fancy blue">joe</span> chained to <span class="fancy">cop</span>, <span class="fancy blue">human</span> and <span class="fancy">being</span> while <span class="fancy green">alex</span> is chained to <span class="fancy">cop</span>, <span class="fancy green">robot</span> and <span class="fancy">being</span>. I don't want <span class="fancy green">robot</span> to affect <span class="fancy blue">joe</span> nor <span class="fancy blue">human</span> to affect <span class="fancy green">alex</span>.</p>
+				<p>Chain.js not only allows multiple pseudo-inheritance – without proprietary copying and observer type patterns – but also keeps each object's lineage independent so I can now do things like this:</p>
+				
+				<div class="centeralign"><img src="img/chain3.png"></div>
+				
+				<p>This means I can define the lineage of any object as I like, not interfering with any other objects' lineage. I can have all sorts of forks, loops and paradoxes in the inheritance tree. It's simpler than it looks, consider the following tree:</p>
+				
+				<div class="centeralign"><img src="img/chain4.png"></div>
+				
+				<p>Take object <span class="fancy rose">A</span>. Its chain has been defined as <span class="fancy blue">B C I P R</span>. These are the objects in <span class="fancy rose">A</span>'s chain. But each one of these objects can also have its own chain, branching the chain tree. When getting a property from <span class="fancy rose">A</span>, you can choose to look only in its chain or you can choose to look up the entire tree. If you choose the latter you must be aware of precedence, signified here by alphabetical order. As you can see, younger chained objects's whole chains are considered younger than older chained objects.</p>
+				<p>Mind that in spite of every object being represented with a different letter here, objects can repeat themselves throughout the chain tree. This means that <span class="code">(B===F)</span> can be <span class="value">true</span>, allowing for tridimensional inheritance chains to be designed. All the connections between chained objects are live, wich means that if I make changes to <span class="fancy blue">N</span>, <span class="fancy rose">A</span> will retrieve <span class="fancy blue">N</span>'s updated value when required.</p>
+				<p>While <span class="fancy blue">B</span> and <span class="fancy blue">C</span> are in <span class="fancy rose">A</span>'s chain, <span class="fancy blue">C</span> doesn't necessarily have to be on <span class="fancy blue">B</span>'s chain, as every object has its own independent chain and therefore its own tree.</p>
+				
+			</div>
+		</div>
+		<div class="part"></div>
+		<div id="about" class="part">
+			<div class="center">
+				<h2>
+					About me
+				</h2>
+				<p>
+					I am a Portuguese web developer, graphic designer and drummer from the city of Porto. I love music, design and javascript. If you have any doubts, suggestions or a will to buy me a beer <a href="mailto:mail@jrvieira.com">get in touch</a>. Also check out my <a href="https://www.behance.net/josevieiradesign">portfolio</a>.
+				</p>
+			</div>
+		</div>
+	</body>
+</html>
