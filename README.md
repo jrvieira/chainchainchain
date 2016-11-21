@@ -14,6 +14,12 @@ bower
 ##Usage
 
 ```javascript
+import 'chainchainchain';
+```
+
+or
+
+```javascript
 const chain = require('chainchainchain');
 ```
 
