@@ -26,10 +26,25 @@ SOFTWARE.
 
 module.exports = chainchainchain;
 //defaults
-chainchainchain.settings = {
-	ownchainonly: true,
-	allowloops: false
-}
+
+//every setting defaults to false
+var settings = Object.preventExtensions({
+	trees: false,
+	loops: false
+})
+
+Object.defineProperty(chainchainchain, 'set', {
+	value: new Proxy(settings, {
+		get: function (target, prop) {
+			return !!target[prop];
+		},
+		set: function (target, prop, value) {
+			//if (!(prop in target)) throw new Error(prop+' is not a setting');
+			if (typeof value !== 'boolean') console.warn('Chain settings should be boolean, assuming '+!!value+' for '+prop);
+			return target[prop] = !!value;
+		}
+	})
+});
 
 //o[chi] = Chainchainchain {} //Chainchainchain[chi] = []
 var chi = Symbol('chi');
@@ -66,10 +81,10 @@ function Chainchainchain (o, ch) {
 }
 
 function chainchainchain (o, ch) {
+	//validate o
+	if (typeof o === 'undefined') throw new TypeError('Argument undefined');
 	//validate typeof ch
-	if (ch && !(ch instanceof Array)) {
-		throw new TypeError(ch+' is not an Array');
-	}
+	if (ch && !(ch instanceof Array)) throw new TypeError(ch+' is not an Array');
 	//if already initd return o's Chainchainchain
 	if (o[chi] instanceof Chainchainchain) {
 		o[chi][chi] = ch || o[chi][chi];
@@ -83,7 +98,7 @@ function chainchainchain (o, ch) {
 
 	return proxy;
 }
-
-chainchainchain.get = function (o) {
+//return array
+chainchainchain.arr = function (o) {
 	return o[chi][chi];
 }
