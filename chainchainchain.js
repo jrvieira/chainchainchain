@@ -24,30 +24,23 @@ SOFTWARE.
 
 'use strict';
 
-module.exports = chainchainchain;
+module.exports = chain;
 //defaults
-
-//every setting defaults to false
-var settings = Object.preventExtensions({
-	trees: false,
-	loops: false
-})
-
-Object.defineProperty(chainchainchain, 'set', {
-	value: new Proxy(settings, {
-		get: function (target, prop) {
-			return !!target[prop];
-		},
-		set: function (target, prop, value) {
-			//if (!(prop in target)) throw new Error(prop+' is not a setting');
-			if (typeof value !== 'boolean') console.warn('Chain settings should be boolean, assuming '+!!value+' for '+prop);
-			return target[prop] = !!value;
-		}
-	})
-});
 
 //o[chi] = Chainchainchain {} //Chainchainchain[chi] = []
 var chi = Symbol('chi');
+
+function Chainchainchain (o, ch = []) {
+	Object.defineProperties(this, {
+		o: {
+			value: o
+		},
+		ch: {
+			value: ch,
+			writable: true
+		}
+	});
+}
 
 var handle = {
 	get: function (target, prop) {
@@ -68,19 +61,7 @@ var handle = {
 //this makes the handler replaceable
 var handler = handle;
 
-function Chainchainchain (o, ch) {
-	Object.defineProperties(this, {
-		o: {
-			value: o
-		},
-		ch: {
-			value: ch || [],
-			writable: true
-		}
-	});
-}
-
-function chainchainchain (o, ch) {
+function chain (o, ch) {
 	//validate o
 	if (typeof o === 'undefined') throw new TypeError('Argument undefined');
 	//validate typeof ch
@@ -93,12 +74,117 @@ function chainchainchain (o, ch) {
 
 	console.log('// ch init');
 
+	//FINDLOOPS HERE OR
+
 	var proxy = new Proxy(new Chainchainchain(o, ch), handler);
 	o[chi] = proxy;
 
+	//HERE ? FINDLOOPS
+
 	return proxy;
 }
-//return array
-chainchainchain.arr = function (o) {
-	return o[chi][chi];
-}
+
+//every setting defaults to false
+var settings = Object.preventExtensions({
+	trees: false,
+	loops: false
+})
+
+Object.defineProperties(chain, {
+
+	set:{
+		value: new Proxy(settings, {
+			get: function (target, prop) {
+				return !!target[prop];
+			},
+			set: function (target, prop, value) {
+				//if (!(prop in target)) throw new Error(prop+' is not a setting');
+				if (typeof value !== 'boolean') console.warn('Chain settings should be boolean, assuming '+!!value+' for '+prop);
+				return target[prop] = !!value;
+			}
+		})
+	},
+
+	arr: {
+		value: function (o) {
+			return chain(o)[chi]; //initializes chain if not initialized yet
+		}
+	},
+	//MANIPULATION
+	add: {
+		value: function (o, oo = []) {
+
+			if (!(chain.arr(o) instanceof Array)) throw new TypeError(o[chi][chi]+' is not an Array'); //initializes chain if not initialized yet
+
+			if (!(oo instanceof Array)) oo = [oo];
+
+			for (let i = 0; i < oo.length; i ++) { //adds objects to chain
+				o[chi][chi].push(oo[i]);	console.log('pushing '+oo[i]+' from '+oo);
+			}
+			//FINDLOOPS
+
+			return o[chi];
+		}
+	},
+
+	pre: {
+		value: function (o, oo = []) {
+
+			if (!(chain.arr(o) instanceof Array)) throw new TypeError(o[chi][chi]+' is not an Array'); //initializes chain if not initialized yet
+
+			if (!(oo instanceof Array)) oo = [oo];
+
+			for (let i = oo.length; i > 0; i --) { //prepends objects to chain
+				o[chi][chi].unshift(oo[i-1]);
+			}
+			//FINDLOOPS
+
+			return o[chi];
+		}
+	},
+
+	rem: {
+		value: function (o, oo = []) {
+
+			if (!(chain.arr(o) instanceof Array)) throw new TypeError(o[chi][chi]+' is not an Array'); //initializes chain if not initialized yet
+
+			if (!(oo instanceof Array)) oo = [oo];
+
+			for (let i = 0; i < oo.length; i ++) {	
+				o[chi][chi] = o[chi][chi].filter(function (o) {
+				    return o !== oo[i];
+				});
+			}
+
+			return o[chi];
+		}
+	},
+
+	rep: {
+		value: function (o, x, n) {
+
+			if (!(chain.arr(o) instanceof Array)) throw new TypeError(o[chi][chi]+' is not an Array'); //initializes chain if not initialized yet
+
+			while (!(o[chi][chi].indexOf(x) < 0)) { //replaces objects in chain
+				o[chi][chi].splice(o[chi][chi].indexOf(x),1,n);
+			}
+			//FINDLOOPS
+
+			return o[chi];
+		}
+	},
+
+	del: {
+		value: function (o) {
+			//delete everything of o, revoke proxies
+			return true;
+		}
+	},
+
+	raw: {
+		value: function (o, prop) {
+			
+		}
+	}
+	
+});
