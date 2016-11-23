@@ -27,48 +27,71 @@ SOFTWARE.
 module.exports = chain;
 //defaults
 
-//o[chi] = Chainchainchain {} //Chainchainchain[chi] = []
+//o[chi] = Chainchainchain {} //o[chi][chi] = []
 var chi = Symbol('chi');
+//o[chi][cho] = o
+var cho = Symbol('cho');
 
 function Chainchainchain (o, ch = []) {
 	Object.defineProperties(this, {
-		o: {
+		[cho]: {
 			value: o
 		},
-		ch: {
+		[chi]: {
 			value: ch,
 			writable: true
 		}
 	});
 }
 
-var handle = {
+var handler = {
 	get: function (target, prop) {
-		if (prop === chi) return target.ch;
+		if (prop === chi) return target[chi];
+		if (prop === cho) return target[cho];
 		//get youngest
-		if (prop in target.o) return target.o[prop];
-		console.log('// ch get young', prop);
-		//return target[prop];
+		var o = target[cho];
+		var proto = [o,...target[chi]];
+		var p, owner;
+
+		for (let oo of proto) {
+			p = oo[prop];
+			owner = oo;
+			if (!(p === undefined)) break;
+		}
+
+		if (p instanceof Function) {
+			//x && y => if x is true returns y, else returns x
+			p = p.bind(!settings.owncontext && o || owner);
+		}
+
+		return p;
 	},
 	set: function (target, prop, value) {
-		if (prop === chi) return target.ch = value;
+		if (prop === chi) return target[chi] = value;
+		//if (prop === cho) return target[cho] = value; //cho never changes
 		//set youngest
-		if (prop in target.o) return target.o[prop] = value;
-		console.log('// ch set young', prop);
-		//return target[prop] = value;
+		var o = target[cho];
+		if (prop in o) {
+			return o[prop] = value;
+		} else {
+			for (let oo of target[chi]) {
+				if (prop in oo) return oo[prop] = value;
+			}
+		}
+		console.warn(prop+' is not a chained property.');
+		return false;
 	}
 }
-//this makes the handler replaceable
-var handler = handle;
 
-function chain (o, ch) {
+function chain (o, ch = []) {
 	//validate o
 	if (typeof o === 'undefined') throw new TypeError('Argument undefined');
-	//validate typeof ch
-	if (ch && !(ch instanceof Array)) throw new TypeError(ch+' is not an Array');
-	//if already initd return o's Chainchainchain
-	if (o[chi] instanceof Chainchainchain) {
-		o[chi][chi] = ch || o[chi][chi];
+	if (o instanceof Chainchainchain) throw new Error('Chainchainchain objects cannot be chained');
+	//validate ch
+	if (!(ch instanceof Array)) ch = [ch];
+	//if already initd return o's Chainchainchain and reset chain if second argument is provided
+	if (o[chi] instanceof Chainchainchain && o[chi][cho] === o) {
+		o[chi][chi] = ch.length ? ch : o[chi][chi];
 		return o[chi];
 	}
 
@@ -86,8 +109,10 @@ function chain (o, ch) {
 
 //every setting defaults to false
 var settings = Object.preventExtensions({
-	trees: false,
-	loops: false
+	owncontext: false, //functions remain in owner's context
+	uniqueness: false, //allow duplicate objects in chain
+	chaintrees: false, //lookup chained object's chains
+	allowloops: false //allow loops
 })
 
 Object.defineProperties(chain, {
@@ -99,7 +124,7 @@ Object.defineProperties(chain, {
 			},
 			set: function (target, prop, value) {
 				//if (!(prop in target)) throw new Error(prop+' is not a setting');
-				if (typeof value !== 'boolean') console.warn('Chain settings should be boolean, assuming '+!!value+' for '+prop);
+				if (typeof value !== 'boolean') console.warn('Chain settings should be Boolean, assuming '+!!value+' for '+prop);
 				return target[prop] = !!value;
 			}
 		})
@@ -113,13 +138,13 @@ Object.defineProperties(chain, {
 	//MANIPULATION
 	add: {
 		value: function (o, oo = []) {
-
-			if (!(chain.arr(o) instanceof Array)) throw new TypeError(o[chi][chi]+' is not an Array'); //initializes chain if not initialized yet
+			//initializes if not yet and typechecks
+			if (!(chain.arr(o) instanceof Array)) throw new TypeError(o[chi][chi]+' is not an Array');
 
 			if (!(oo instanceof Array)) oo = [oo];
 
 			for (let i = 0; i < oo.length; i ++) { //adds objects to chain
-				o[chi][chi].push(oo[i]);	console.log('pushing '+oo[i]+' from '+oo);
+				o[chi][chi].push(oo[i]);
 			}
 			//FINDLOOPS
 
@@ -129,8 +154,8 @@ Object.defineProperties(chain, {
 
 	pre: {
 		value: function (o, oo = []) {
-
-			if (!(chain.arr(o) instanceof Array)) throw new TypeError(o[chi][chi]+' is not an Array'); //initializes chain if not initialized yet
+			//initializes if not yet and typechecks
+			if (!(chain.arr(o) instanceof Array)) throw new TypeError(o[chi][chi]+' is not an Array');
 
 			if (!(oo instanceof Array)) oo = [oo];
 
@@ -145,9 +170,9 @@ Object.defineProperties(chain, {
 
 	rem: {
 		value: function (o, oo = []) {
-
-			if (!(chain.arr(o) instanceof Array)) throw new TypeError(o[chi][chi]+' is not an Array'); //initializes chain if not initialized yet
-
+			//initializes if not yet and typechecks
+			if (!(chain.arr(o) instanceof Array)) throw new TypeError(o[chi][chi]+' is not an Array');
+			
 			if (!(oo instanceof Array)) oo = [oo];
 
 			for (let i = 0; i < oo.length; i ++) {	
@@ -162,8 +187,8 @@ Object.defineProperties(chain, {
 
 	rep: {
 		value: function (o, x, n) {
-
-			if (!(chain.arr(o) instanceof Array)) throw new TypeError(o[chi][chi]+' is not an Array'); //initializes chain if not initialized yet
+			//initializes if not yet and typechecks
+			if (!(chain.arr(o) instanceof Array)) throw new TypeError(o[chi][chi]+' is not an Array');
 
 			while (!(o[chi][chi].indexOf(x) < 0)) { //replaces objects in chain
 				o[chi][chi].splice(o[chi][chi].indexOf(x),1,n);
@@ -177,14 +202,41 @@ Object.defineProperties(chain, {
 	del: {
 		value: function (o) {
 			//delete everything of o, revoke proxies
-			return true;
+			return (delete o[chi]);
 		}
 	},
 
 	raw: {
-		value: function (o, prop) {
-			
+		value: function (o, p) {
+			//validate p
+			if (typeof p === 'undefined') throw new TypeError('Argument undefined');
+			//initializes if not yet and typechecks
+			if (!(chain.arr(o) instanceof Array)) throw new TypeError(o[chi][chi]+' is not an Array');
+			//proto = o + oo
+			var proto = [o,...o[chi][chi]];
+			//x && y => if x is true returns y, else returns x
+			var ocontext = !settings.owncontext && o;
+
+			var raw = [];
+
+			for (let i = 0; i < proto.length; i ++) {
+				if (proto[i][p] instanceof Function) {
+					raw.push(proto[i][p].bind(ocontext || proto[i]));
+				} else {
+					raw.push(proto[i][p]);
+				}
+			}
+
+			return raw;
 		}
+	},
+	/*debugging
+	chi: {
+		value: chi
+	},
+	cho: {
+		value: cho
 	}
+	*/
 	
 });
