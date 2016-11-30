@@ -235,13 +235,13 @@ div.method:hover {
 
 #about {
 	width: 100%;
-	background-color: #1a1b1d;
+	background-color: #333;
 	color: #f7f7f7;
 	padding-top: 20px;
 }
 
 #about a {
-	background-color: #333;
+	background-color: #ff007e;
 	border-bottom: 1px solid #d40000;
 	color: #fff;
 	font-family: "Lucida Grande", Lucida, Verdana, sans-serif;
