@@ -25,98 +25,53 @@ SOFTWARE.
 'use strict';
 
 module.exports = chain;
-//defaults
-
-//o[chi] = Chainchainchain {} //o[chi][chi] = []
-const chi = Symbol('chi');
-//o[chi][cho] = o
-const cho = Symbol('cho');
-
-const Chainchainchain = function (o, ch = []) {
-	Object.defineProperties(this, {
-		[cho]: {
-			value: o
-		},
-		[chi]: {
-			value: ch,
-			writable: true
-		}
-	});
-}
-
-var handler = {
-	get: function (target, prop) {
-		if (prop === chi) return target[chi];
-		if (prop === cho) return target[cho];
-		//get youngest
-		var o = target[cho];
-		var ch = target[chi];
-
-		var p = o[prop];
-		var owner = o;
-
-		var i = 0;
-
-		while (p === undefined && i < ch.length) {
-			p = ch[i][prop];
-			owner = ch[i];
-			i++;
-		}
-
-		if (p instanceof Function) {
-			//x && y => if x is true returns y, else returns x
-			p = p.bind(!settings.owncontext && o || owner);
-		}
-
-		return p;
-	},
-	set: function (target, prop, value) {
-		if (prop === chi) return target[chi] = value;
-		//if (prop === cho) return target[cho] = value; //cho never changes
-		//set youngest
-		var o = target[cho];
-		if (prop in o) {
-			return o[prop] = value;
-		} else {
-			for (let oo of target[chi]) {
-				if (prop in oo) return oo[prop] = value;
-			}
-		}
-		console.warn(prop+' is not a chained property.');
-		return false;
-	}
-}
-
-function chain (o, ch = []) {
-	//validate o
-	if (typeof o === 'undefined') throw new TypeError('Argument undefined');
-	if (o instanceof Chainchainchain) throw new Error('Chainchainchain objects cannot originate chains');
-	//validate ch
-	if (!(ch instanceof Array)) ch = [ch];
-	//if already initd return o's Chainchainchain and reset chain if second argument is provided
-	if (o[chi] instanceof Chainchainchain && o[chi][cho] === o) {
-		o[chi][chi] = ch.length ? ch : o[chi][chi];
-		return o[chi];
-	}
-
-	console.log('// ch init');
-
-	//FINDLOOPS HERE OR
-
-	var proxy = new Proxy(new Chainchainchain(o, ch), handler);
-	o[chi] = proxy;
-
-	//HERE ? FINDLOOPS
-
-	return proxy;
-}
-
 //every setting defaults to false
 var settings = Object.preventExtensions({
 	owncontext: false, //functions remain in owner's context
 	uniqueness: false, //prevent duplicate objects in chain
-	allowloops: false //allow loops (only happens when chaining Chainchainchain objects)
-})
+	allowloops: false, //allow loops (only happens when chaining Chainchainchain objects)
+	setchained: false //values are set on its youngest owner in chain
+});
+
+const chi = Symbol('chi');
+
+var handler = {
+	get: function (arr, prop) {
+		if (prop === chi) return arr;
+		//if (prop === rvk) return arr.
+		//get youngest
+		var p;
+		for (let o of arr) {
+			if (typeof o[prop] !== 'undefined') {
+				//x && y => if x is true returns y, else returns x
+				p = o[prop] instanceof Function ? o[prop].bind(!settings.owncontext && arr[0] || o) : o[prop];
+			}
+		}
+		return p;
+	},
+	set: function (arr, prop, value) {
+		var origin = arr[0];
+		if (!settings.setchained) return origin[prop] = value;
+		//set youngest
+		for (let o of arr) {
+			if (typeof o[prop] !== 'undefined') {
+				return o[prop] = value;
+			}
+		}
+		console.warn(prop+' is not a chained property');
+		return false;
+	}
+}
+
+function chain (o) {
+	//validate o
+	if (typeof o === 'undefined') throw new TypeError('Argument undefined');
+	//validate ch
+	console.log('// ch init');
+	//FINDLOOPS
+
+	return new Proxy([...arguments], handler);
+}
 
 Object.defineProperties(chain, {
 
@@ -132,121 +87,118 @@ Object.defineProperties(chain, {
 			}
 		})
 	},
-
+	//returns origin object
 	origin: {
-		value: function (ochain) {
-			if (!(ochain instanceof Chainchainchain)) throw new TypeError(ochain+' is not a Chainchainchain object');
-			
-			return ochain[cho];
+		value: function (ch) {
+			return ch[chi][0] || false;
 		}
 	},
-
+	//returns chain's array of objects
+	is: {
+		value: function (ch) { //leaks
+			return ch[chi] ? true : false;
+		}
+	},
+	//returns chain's array of objects
 	arr: {
-		value: function (ochain) {
-			if (!(ochain instanceof Chainchainchain)) throw new TypeError(ochain+' is not a Chainchainchain object');
-
-			return ochain[chi];
+		value: function (ch) { //leaks
+			return ch[chi] ? [...ch[chi]] : false;
 		}
 	},
 	//MANIPULATION
+	//adds objects to end of chain
 	add: {
-		value: function (ochain, oo = []) {
-			if (!(ochain instanceof Chainchainchain)) throw new TypeError(ochain+' is not a Chainchainchain object');
-
+		value: function (ch, oo = []) {
+			if (!ch[chi]) throw new TypeError(ch+' is not a chain');
 			if (!(oo instanceof Array)) oo = [oo];
-
-			for (let i = 0; i < oo.length; i ++) { //adds objects to chain
-				ochain[chi].push(oo[i]);
-			}
+			//appends objects to chain
+			ch[chi].push(...oo);
 			//FINDLOOPS
 
-			return ochain;
+			return [...ch[chi]];
 		}
 	},
-
+	//adds objects to beggining of chain
 	pre: {
-		value: function (ochain, oo = []) {
-			if (!(ochain instanceof Chainchainchain)) throw new TypeError(ochain+' is not a Chainchainchain object');
-
+		value: function (ch, oo = []) {
+			if (!ch[chi]) throw new TypeError(ch+' is not a chain');
 			if (!(oo instanceof Array)) oo = [oo];
-
-			for (let i = oo.length; i > 0; i --) { //prepends objects to chain
-				ochain[chi].unshift(oo[i-1]);
-			}
+			//prepends objects to chain
+			ch[chi].splice(1, 0, oo);
 			//FINDLOOPS
 
-			return ochain;
+			return [...ch[chi]];
 		}
 	},
-
+	//removes objects from chain
 	rem: {
-		value: function (ochain, oo = []) {
-			if (!(ochain instanceof Chainchainchain)) throw new TypeError(ochain+' is not a Chainchainchain object');
-			
+		value: function (ch, oo = []) {
+			if (!ch[chi]) throw new TypeError(ch+' is not a chain');
 			if (!(oo instanceof Array)) oo = [oo];
-
+			//filters objects out of chain
 			for (let i = 0; i < oo.length; i ++) {	
-				ochain[chi] = ochain[chi].filter(function (o) {
+				ch[chi] = ch[chi].filter(function (o) {
 				    return o !== oo[i];
 				});
 			}
 
-			return ochain;
+			return [...ch[chi]];
 		}
 	},
-
+	//replaces objects from chain
 	rep: {
-		value: function (ochain, x, n) {
-			if (!(ochain instanceof Chainchainchain)) throw new TypeError(ochain+' is not a Chainchainchain object');
-
-			while (!(ochain[chi].indexOf(x) < 0)) { //replaces objects in chain
-				ochain[chi].splice(ochain[chi].indexOf(x),1,n);
+		value: function (ch, x, n) {
+			if (!ch[chi]) throw new TypeError(ch+' is not a chain');
+			//replaces objects in chain
+			while (!(ch[chi].indexOf(x) < 0)) {
+				ch[chi].splice(ch[chi].indexOf(x),1,n);
 			}
 			//FINDLOOPS
 
-			return ochain;
+			return [...ch[chi]];
 		}
 	},
-
-	del: {
-		value: function (o) {
-			//delete everything of o, revoke proxies
-			//revoke proxy
-			return (delete o[chi]);
-		}
-	},
-
+	//returns array of properties in chain
 	raw: {
-		value: function (ochain, p, callback) {
-			if (!(ochain instanceof Chainchainchain)) throw new TypeError(ochain+' is not a Chainchainchain object');
+		value: function (ch, prop, callback) {
+			if (!ch[chi]) throw new TypeError(ch+' is not a chain');
 			//validate p
-			if (typeof p === 'undefined') throw new TypeError('Argument undefined');
-			
-			//proto = o + oo
-			var proto = [ochain[cho],...ochain[chi]];
-			//x && y => if x is true returns y, else returns x
-			var ocontext = !settings.owncontext && ochain[cho];
+			if (typeof prop === 'undefined') throw new TypeError('Argument undefined');
 
 			var raw = [];
+			var own = [];
 
-			for (let i = 0; i < proto.length; i ++) {
-				if (proto[i][p] instanceof Function) {
-					raw.push(proto[i][p].bind(ocontext || proto[i]));
-				} else {
-					raw.push(proto[i][p]);
-				}
+			for (let o of ch[chi]) {
+				//x && y => if x is true returns y, else returns x
+				raw.push(o[prop] instanceof Function ? o[prop].bind(!settings.owncontext && ch[chi][0] || o) : o[prop]);
+				if (callback) own.push(o);
 			}
 
-			return callback(raw);
+			return callback ? callback(raw, own) : raw;
 		}
 	},
-	/*debugging
-	chi: {
-		value: chi
-	},
-	cho: {
-		value: cho
+
+	//if you create a loop there is a RangeError: Maximum call stack size exceeded
+	//so this method and the allowloops setting is obsolete ? 
+	findloop: {
+		value: function (ch) {
+			if (ch[chi]) {
+				var arr = [ch[chi]];
+				for (let i = 0; i < ch[chi].length; i++) {
+					let oo = ch[chi][i];
+					if(arr.indexOf(oo) > -1) {
+						console.warn('Looping', oo);
+						if (!settings.allowloops) throw new Error('loop in chain tree');
+						return oo;
+					} else {
+						chain.findloop(oo);
+						arr.push(oo);
+						console.info('Findlooping... '+oo.name);
+					}
+				}
+			}
+			return false;
+		}
 	}
-	*/
 	
 });
