@@ -24,7 +24,9 @@ SOFTWARE.
 
 'use strict';
 
+//export default chain; //import chain from 'chainchainchain'
 module.exports = chain;
+
 //every setting defaults to false
 var settings = Object.preventExtensions({
 	owncontext: false, //functions remain in owner's context
@@ -63,14 +65,14 @@ var handler = {
 	}
 }
 
-function chain (o) {
+function chain (...arr) {
 	//validate o
-	if (typeof o === 'undefined') throw new TypeError('Argument undefined');
+	if (typeof arr === 'undefined') throw new TypeError('Argument undefined');
 	//validate ch
 	console.log('// ch init');
 	//FINDLOOPS
 
-	return new Proxy([...arguments], handler);
+	return new Proxy(arr, handler);
 }
 
 Object.defineProperties(chain, {
@@ -132,13 +134,13 @@ Object.defineProperties(chain, {
 	},
 	//removes objects from chain
 	rem: {
-		value: function (ch, oo = []) {
+		value: function (ch, xx = []) {
 			if (!ch[chi]) throw new TypeError(ch+' is not a chain');
-			if (!(oo instanceof Array)) oo = [oo];
+			if (!(xx instanceof Array)) xx = [xx];
 			//filters objects out of chain
-			for (let i = 0; i < oo.length; i ++) {	
+			for (let x of xx) {	
 				ch[chi] = ch[chi].filter(function (o) {
-				    return o !== oo[i];
+				    return o !== x;
 				});
 			}
 
@@ -147,11 +149,13 @@ Object.defineProperties(chain, {
 	},
 	//replaces objects from chain
 	rep: {
-		value: function (ch, x, n) {
+		value: function (ch, x, o) {
 			if (!ch[chi]) throw new TypeError(ch+' is not a chain');
 			//replaces objects in chain
 			while (!(ch[chi].indexOf(x) < 0)) {
-				ch[chi].splice(ch[chi].indexOf(x),1,n);
+				console.info(ch[chi], x ,ch[chi].indexOf(x));
+				ch[chi].splice(ch[chi].indexOf(x),1,o);
+				console.info(ch[chi]);
 			}
 			//FINDLOOPS
 
@@ -181,20 +185,11 @@ Object.defineProperties(chain, {
 	//if you create a loop there is a RangeError: Maximum call stack size exceeded
 	//so this method and the allowloops setting is obsolete ? 
 	findloop: {
-		value: function (ch) {
-			if (ch[chi]) {
-				var arr = [ch[chi]];
-				for (let i = 0; i < ch[chi].length; i++) {
-					let oo = ch[chi][i];
-					if(arr.indexOf(oo) > -1) {
-						console.warn('Looping', oo);
-						if (!settings.allowloops) throw new Error('loop in chain tree');
-						return oo;
-					} else {
-						chain.findloop(oo);
-						arr.push(oo);
-						console.info('Findlooping... '+oo.name);
-					}
+		value: function (ch, set = new Set()) {
+			set.add(ch);
+			for (let o of ch[chi]) {
+				if ( chain.is(o) && ( set.has(o) || chain.findloop(o, set) ) ) {
+					return o;
 				}
 			}
 			return false;
