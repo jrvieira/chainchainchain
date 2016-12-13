@@ -30,32 +30,38 @@ module.exports = chain;
 //every setting defaults to false
 var settings = Object.preventExtensions({
 	owncontext: false, //functions remain in owner's context
-	uniqueness: false, //prevent duplicate objects in chain
-	allowloops: false, //allow loops (only happens when chaining Chainchainchain objects)
+	//uniqueness: false, //prevent duplicate objects in chain
+	allowloops: false, //allow loops (only happens when chaining Ch objects)
 	setchained: false //values are set on its youngest owner in chain
 });
 
 const chi = Symbol('chi');
 
 var handler = {
-	get: function (arr, prop) {
-		if (prop === chi) return arr;
-		//if (prop === rvk) return arr.
+	get: function (target, prop) {
+		if (prop === chi) return target[chi];
+		//if (prop === rvk) return target.
 		//get youngest
 		var p;
-		for (let o of arr) {
+		var avoid = chain.findloop(target);
+		if (!settings.allowloops && avoid) throw new Error('Loop in chain', avoid);
+
+		for (let o of target[chi]) {
+
+			if (avoid && avoid === o) return false;
+
 			if (typeof o[prop] !== 'undefined') {
 				//x && y => if x is true returns y, else returns x
-				p = o[prop] instanceof Function ? o[prop].bind(!settings.owncontext && arr[0] || o) : o[prop];
+				return o[prop] instanceof Function ? o[prop].bind(!settings.owncontext && target[chi][0] || o) : o[prop];
 			}
 		}
 		return p;
 	},
-	set: function (arr, prop, value) {
-		var origin = arr[0];
+	set: function (target, prop, value) {
+		var origin = target[chi][0];
 		if (!settings.setchained) return origin[prop] = value;
 		//set youngest
-		for (let o of arr) {
+		for (let o of target[chi]) {
 			if (typeof o[prop] !== 'undefined') {
 				return o[prop] = value;
 			}
@@ -65,14 +71,24 @@ var handler = {
 	}
 }
 
+function Ch (arr) {
+	this[chi] = arr;
+}
+
 function chain (...arr) {
 	//validate o
 	if (typeof arr === 'undefined') throw new TypeError('Argument undefined');
 	//validate ch
 	console.log('// ch init');
-	//FINDLOOPS
 
-	return new Proxy(arr, handler);
+	var ch = new Proxy(new Ch(arr), handler);
+	//FINDLOOPS
+	if (chain.findloop(ch)) {
+		if (!settings.allowloops) throw new Error('Loop in chain', chain.findloop(ch));
+		console.warn('Loop in chain', chain.findloop(ch));
+	}
+
+	return ch;
 }
 
 Object.defineProperties(chain, {
@@ -89,6 +105,25 @@ Object.defineProperties(chain, {
 			}
 		})
 	},
+	//if you create a loop there is a RangeError: Maximum call stack size exceeded
+	//so this method and the allowloops setting is obsolete ? 
+	findloop: {
+		value: function (ch, set = new Set()) {
+			set.add(ch);
+			for (let o of ch[chi]) {
+				if ( chain.is(o) && ( set.has(o) || chain.findloop(o, set) ) ) {
+					return o;
+				}
+			}
+			return false;
+		}
+	},
+	//returns true if object is chain
+	is: {
+		value: function (ch) {
+			return ch instanceof Ch ? true : false;
+		}
+	},
 	//returns origin object
 	origin: {
 		value: function (ch) {
@@ -96,76 +131,15 @@ Object.defineProperties(chain, {
 		}
 	},
 	//returns chain's array of objects
-	is: {
-		value: function (ch) { //leaks
-			return ch[chi] ? true : false;
-		}
-	},
-	//returns chain's array of objects
 	arr: {
-		value: function (ch) { //leaks
+		value: function (ch) {
 			return ch[chi] ? [...ch[chi]] : false;
-		}
-	},
-	//MANIPULATION
-	//adds objects to end of chain
-	add: {
-		value: function (ch, oo = []) {
-			if (!ch[chi]) throw new TypeError(ch+' is not a chain');
-			if (!(oo instanceof Array)) oo = [oo];
-			//appends objects to chain
-			ch[chi].push(...oo);
-			//FINDLOOPS
-
-			return [...ch[chi]];
-		}
-	},
-	//adds objects to beggining of chain
-	pre: {
-		value: function (ch, oo = []) {
-			if (!ch[chi]) throw new TypeError(ch+' is not a chain');
-			if (!(oo instanceof Array)) oo = [oo];
-			//prepends objects to chain
-			ch[chi].splice(1, 0, oo);
-			//FINDLOOPS
-
-			return [...ch[chi]];
-		}
-	},
-	//removes objects from chain
-	rem: {
-		value: function (ch, xx = []) {
-			if (!ch[chi]) throw new TypeError(ch+' is not a chain');
-			if (!(xx instanceof Array)) xx = [xx];
-			//filters objects out of chain
-			for (let x of xx) {	
-				ch[chi] = ch[chi].filter(function (o) {
-				    return o !== x;
-				});
-			}
-
-			return [...ch[chi]];
-		}
-	},
-	//replaces objects from chain
-	rep: {
-		value: function (ch, x, o) {
-			if (!ch[chi]) throw new TypeError(ch+' is not a chain');
-			//replaces objects in chain
-			while (!(ch[chi].indexOf(x) < 0)) {
-				console.info(ch[chi], x ,ch[chi].indexOf(x));
-				ch[chi].splice(ch[chi].indexOf(x),1,o);
-				console.info(ch[chi]);
-			}
-			//FINDLOOPS
-
-			return [...ch[chi]];
 		}
 	},
 	//returns array of properties in chain
 	raw: {
 		value: function (ch, prop, callback) {
-			if (!ch[chi]) throw new TypeError(ch+' is not a chain');
+			if (!(ch instanceof Ch)) throw new TypeError(ch+' is not a chain');
 			//validate p
 			if (typeof prop === 'undefined') throw new TypeError('Argument undefined');
 
@@ -181,18 +155,70 @@ Object.defineProperties(chain, {
 			return callback ? callback(raw, own) : raw;
 		}
 	},
-
-	//if you create a loop there is a RangeError: Maximum call stack size exceeded
-	//so this method and the allowloops setting is obsolete ? 
-	findloop: {
-		value: function (ch, set = new Set()) {
-			set.add(ch);
-			for (let o of ch[chi]) {
-				if ( chain.is(o) && ( set.has(o) || chain.findloop(o, set) ) ) {
-					return o;
-				}
+	//MANIPULATION
+	//adds objects to end of chain
+	add: {
+		value: function (ch, oo = []) {
+			if (!(ch instanceof Ch)) throw new TypeError(ch+' is not a chain');
+			if (!(oo instanceof Array)) oo = [oo];
+			//appends objects to chain
+			ch[chi].push(...oo);
+			//FINDLOOPS
+			if (chain.findloop(ch)) {
+				if (!settings.allowloops) throw new Error('Loop in chain', chain.findloop(ch));
+				console.warn('Loop in chain', chain.findloop(ch));
 			}
-			return false;
+
+			return [...ch[chi]];
+		}
+	},
+	//adds objects to beggining of chain
+	pre: {
+		value: function (ch, oo = []) {
+			if (!(ch instanceof Ch)) throw new TypeError(ch+' is not a chain');
+			if (!(oo instanceof Array)) oo = [oo];
+			//prepends objects to chain
+			ch[chi].unshift(...oo);
+			//FINDLOOPS
+			if (chain.findloop(ch)) {
+				if (!settings.allowloops) throw new Error('Loop in chain', chain.findloop(ch));
+				console.warn('Loop in chain', chain.findloop(ch));
+			}
+
+
+			return [...ch[chi]];
+		}
+	},
+	//replaces objects from chain
+	rep: {
+		value: function (ch, x, o) {
+			if (!(ch instanceof Ch)) throw new TypeError(ch+' is not a chain');
+			//replaces objects in chain
+			while (!(ch[chi].indexOf(x) < 0)) {
+				ch[chi].splice(ch[chi].indexOf(x),1,o);
+			}
+			//FINDLOOPS
+			if (chain.findloop(ch)) {
+				if (!settings.allowloops) throw new Error('Loop in chain', chain.findloop(ch));
+				console.warn('Loop in chain', chain.findloop(ch));
+			}
+
+			return [...ch[chi]];
+		}
+	},
+	//removes objects from chain
+	rem: {
+		value: function (ch, xx = []) {
+			if (!(ch instanceof Ch)) throw new TypeError(ch+' is not a chain');
+			if (!(xx instanceof Array)) xx = [xx];
+			//filters objects out of chain
+			for (let x of xx) {	
+				ch[chi] = ch[chi].filter(function (o) {
+				    return o !== x;
+				});
+			}
+
+			return [...ch[chi]];
 		}
 	}
 	
