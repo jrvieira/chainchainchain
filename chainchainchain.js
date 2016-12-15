@@ -58,6 +58,7 @@ var handler = {
 		return p;
 	},
 	set: function (target, prop, value) {
+		if (prop === chi) return target[chi] = value;
 		var origin = target[chi][0];
 		if (!settings.setchained) return origin[prop] = value;
 		//set youngest
@@ -185,7 +186,6 @@ Object.defineProperties(chain, {
 				console.warn('Loop in chain', chain.findloop(ch));
 			}
 
-
 			return [...ch[chi]];
 		}
 	},
@@ -212,11 +212,9 @@ Object.defineProperties(chain, {
 			if (!(ch instanceof Ch)) throw new TypeError(ch+' is not a chain');
 			if (!(xx instanceof Array)) xx = [xx];
 			//filters objects out of chain
-			for (let x of xx) {	
-				ch[chi] = ch[chi].filter(function (o) {
-				    return o !== x;
-				});
-			}
+			ch[chi] = ch[chi].filter(function (o) {
+				return !xx.includes(o);
+			});
 
 			return [...ch[chi]];
 		}
