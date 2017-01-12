@@ -19,7 +19,7 @@ const chain = require('chainchainchain');
 
 ##Documentation
 
-Refer to the website for more information: [chainchainchain.jrvieira.com](http://chainchainchain.jrvieira.com)
+Refer to the website for more information: [jrvieira.github.io/chainchainchain](jrvieira.github.io/chainchainchain)
 
 
 ###### Licensed under the MIT license.
