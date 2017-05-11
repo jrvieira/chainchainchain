@@ -1,7 +1,7 @@
 $(function(){
 	
 		//SCROLL
-		$("a[href^=#]").on('click',function(){
+		$('a').on('click',function(){
 		    $('html, body').animate({
 		        scrollTop: $( $(this).attr('href') ).offset().top-100
 		    }, 500, 'easeInOutCubic');
@@ -22,26 +22,11 @@ $(function(){
 		    return false;
 		});
 		
-		var defaultmethodname = $('#defaultmethodname').eq(0).text();
-		
-		
-		$('div#default.method').find('span.method').eq(0).prepend(defaultmethodname);
-		
-		$('div.method:not(#default)').each(function(){
-			$(this).find('span.method').eq(0).prepend(defaultmethodname+'.');
-		});
-		
-		$("a[href^=#]").each(function(){
-			let methodname = ($(this).attr('href') == '#default') ? defaultmethodname : defaultmethodname+'.'+$(this).attr('href').substring(1);
-			$(this).text(methodname+' ()');
-		});
-		
 		$('.col').each(function(){
 			var $col = $('<div class="index col"></div>');
 			$($col).append($('<h3></h3>').text($(this).attr('id')+' methods:'));
 			$(this).find('div.method').each(function(){
-				let methodname = ($(this).attr('id') == 'default') ? defaultmethodname : defaultmethodname+'.'+$(this).attr('id');
-				$($col).append($('<p></p>').html('<div class="link"><a href="#'+$(this).attr('id')+'">'+methodname+' ()</a></div> '+$(this).find('span.desc').text()));
+				$($col).append($('<p></p>').html('<div class="link"><a href="#'+$(this).attr('id')+'">.'+$(this).attr('id')+'()</a></div> '+$(this).find('span.desc').text()));
 			});
 			$('#contents').append($col);
 		});
@@ -63,6 +48,10 @@ $(function(){
 				$('span.return.value > br').hide();
 			}
 		});
-		$(window).resize();	
+		$(window).resize();
+
+		$('a').wrap('<nobr></nobr>');
+
+		
 			
 });

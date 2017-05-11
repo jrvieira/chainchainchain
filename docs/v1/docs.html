@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="author" content="José Rafael Vieira">
+		<meta name="description" content="Liberal pseudo-inheritance JavaScript micro library for OOP.">
+		<meta name="keywords" content="chainchainchain, javascript, library, inheritance">
+
+		<meta name="viewport" content="width=420">
+
+		<title>
+			chainchainchain 
+		</title>
+		<link type="image/png" rel="shortcut icon" href="img/icon.png">
+		<link type="text/css" rel="stylesheet" href="chainchainchain.css">
+		<link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/easing.js"></script>
+		<script type="text/javascript" src="js/chain.js"></script>
+	</head>
+	<body style="-webkit-text-size-adjust:none;">
+		<div class="fixed">
+			<div id="zero">
+				<div class="center">
+					<div class="nav">
+					<a href="index.html"><span class="fancy">chainchainchain</span></a>
+					</div>|
+					<div class="nav on">
+						<a href="docs.html">Documentation</a>
+					</div>|
+					<div class="nav">
+						<a href="demo.html">Crash course</a>
+					</div>
+					
+					<a title="git-hub" class="source" href="https://github.com/jrvieira/chainchainchain"><i class="fa fa-github-alt fa-fw" aria-hidden="true"></i></a>
+					<a title="raw source" class="source" href="https://raw.githubusercontent.com/jrvieira/chainchainchain/master/chainchainchain.js"><i class="fa fa-code fa-fw" aria-hidden="true"></i></a>
+
+				</div>
+			</div>
+			<div id="fade"></div>
+		</div>
+		<div class="part"></div>
+		<div id="intro" class="part">
+			<div class="center">
+				<h1>
+					Documentation
+				</h1>
+				<p>
+					<span class="fancy">chainchainchain</span> gives you live, dynamic and non-linear pseudo-inheritance.
+				</p>
+				<p>
+					Consider the objects A, B and C; this means that B can inherit from A and C can inherit from B without having to inherit from A. You can define the lineage of any object as you like, not interfering with any other objects lineage. You can have all sorts of forks, loops and paradoxes in the inheritance tree. If you change object A's properties, B's link to it remains live. You can even change the whole lineage of an object reestructuring the whole inheritance chain whenever you like. This is the power of <span class="fancy">chainchainchain</span>.
+				</p>
+			</div>
+		</div>
+		<div id="index" class="part">
+			<div class="center">
+				<div id="contents">
+					
+				</div>
+			</div>
+		</div>
+		<div id="methods" class="part">
+			<div class="center">
+				
+				<div id="Manipulation" class="col">
+					<div id="chain" class="method">
+						<span class="method">.chain ( <span class="argument">obj</span> , <span class="argument">obj</span> , <span class="argument">...</span> )</span> <span class='desc'>Adds objects to the top of the inheritance chain.</span>
+						<div class="usage">
+							<div class="arg">
+								<span class="argument">obj</span> <span class="type">object</span><br>
+								Objects from wich to inherit.
+							</div><span class="blue">returns</span> <span class="type">this</span>
+							<div class="alert"> 
+								<span class="red">Mind</span> that the rightmost objects always become the oldest in chain as this method adds to the top of the chain. If you want to add to the bottom of the chain, use <a href='#inchain'>.inchain()</a>.
+							</div>
+						</div>
+					</div>
+					<div id="dechain" class="method">
+						<span class="method">.dechain ( <span class="argument">obj</span> , <span class="argument">obj</span> , <span class="argument">...</span> )</span> <span class='desc'>Removes objects from the inheritance chain.</span>
+						<div class="usage">
+							<div class="arg">
+								<span class="argument">obj</span> <span class="type">object</span><br>
+								Objects to remove. Clears the chain when called with no arguments.
+							</div><span class="blue">returns</span> <span class="type">this</span> <!--<div class="alert"> 
+				<span class="red">!</span>
+				Caution.
+			</div>-->
+						</div>
+					</div>
+					<div id="rechain" class="method">
+						<span class="method">.rechain ( <span class="argument">x</span> , <span class="argument">o</span> )</span> <span class='desc'>Replaces object in chain.</span>
+						<div class="usage">
+							<div class="arg">
+								<span class="argument">x</span> <span class="type">object</span><br>
+								Object to replace from chain.
+							</div>
+							<div class="arg">
+								<span class="argument">o</span> <span class="type">object</span><br>
+								Object to replace <span class="argument">x</span> with.
+							</div><span class="blue">returns</span> <span class="type">this</span> <!--<div class="alert"> 
+				<span class="red">!</span>
+				Caution.
+			</div>-->
+						</div>
+					</div>
+					<div id="inchain" class="method">
+						<span class="method">.inchain ( <span class="argument">obj</span> , <span class="argument">obj</span> , <span class="argument">...</span> )</span> <span class='desc'>Adds objects to the bottom of the inheritance chain.</span>
+						<div class="usage">
+							<div class="arg">
+								<span class="argument">obj</span> <span class="type">object</span><br>
+								Objects from wich to inherit.
+							</div><span class="blue">returns</span> <span class="type">this</span>
+							<div class="alert"> 
+								<span class="red">Mind</span> that the leftmost objects always become the youngest in chain after the caller, as this method adds to the bottom of the chain. If you want to add to the top of the chain, use <a href='#chain'>.chain()</a>.
+							</div>
+						</div>
+					</div>
+				</div>
+			
+				<div id="Evaluation" class="col">
+					<div id="get" class="method">
+						<span class="method">.get ( <span class="argument">prop</span> , <span class="argument">own</span> )</span> <span class='desc'>Gets the youngest selected property in the chain.</span>
+						<div class="usage">
+							<div class="arg">
+								<span class="argument">prop</span> <span class="type">string</span><br>
+								Name of the property to return.
+							</div>
+							<div class="arg">
+								<span class="argument">own</span> <span class="type">boolean</span><br>
+								If <span class="value">true</span> , methods are applied to the object calling <a href='#get'>.get()</a>, even if the owner is up the chain.
+							</div><span class="blue">returns</span> <span class="type">value</span>
+							<div class="alert">
+								<span class="red">Mind</span> that this method looks for properties only up the caller's chain. To look up the whole chain tree use <a href="#getget">.getget()</a>.
+							</div>
+						</div>
+					</div>
+					<div id="getget" class="method">
+						<span class="method">.getget ( <span class="argument">prop</span> , <span class="argument">own</span> )</span> <span class='desc'>Gets the youngest selected property in the chain tree.</span>
+						<div class="usage">
+							<div class="arg">
+								<span class="argument">prop</span> <span class="type">string</span><br>
+								Name of the property to return.
+							</div>
+							<div class="arg">
+								<span class="argument">own</span> <span class="type">boolean</span><br>
+								If <span class="value">true</span> , methods are applied to the object calling <a href='#getget'>.getget()</a>, even if the owner is up the chain tree.
+							</div><span class="blue">returns</span> <span class="type">value</span>
+							<div class="alert"> 
+								<span class="red">Mind</span> that the younger chained objects's whole chains are considered younger than older chained objects.
+							</div>
+							<div class="alert"> 
+								<span class="red">Use with caution!</span> This method is recursive. Watch out for loops in the chain tree. Use with <span class="code">chain.allowloops = false</span>.
+							</div>
+						</div>
+					</div>
+					<div id="raw" class="method">
+						<span class="method">.raw ( <span class="argument">prop</span> , <span class="argument">own</span> )</span> <span class='desc'>Gets each chained object's selected property.</span>
+						<div class="usage">
+							<div class="arg">
+								<span class="argument">prop</span> <span class="type">string</span><br>
+								Name of the property or method you want to return.
+							</div>
+							<div class="arg">
+								<span class="argument">own</span> <span class="type">boolean</span><br>
+								If <span class="value">true</span> , methods are applied to the object calling <a href='#raw'>.raw()</a>, even if the owner is up the chain.
+							</div><span class="blue">returns</span> <span class="type">array</span>
+							<div class="alert">
+								<span class="red">Mind</span> that this method looks for properties only up the caller's chain. To look up the whole chain tree use <a href="#rawraw">.rawraw()</a>.
+							</div>
+							<div class="alert">
+								<span class="code">.raw(prop,own)[0]</span> and <span class="code">.get(prop,own)</span> return the same.
+							</div>
+						</div>
+					</div>
+					<div id="rawraw" class="method">
+						<span class="method">.rawraw ( <span class="argument">prop</span> , <span class="argument">own</span> )</span> <span class='desc'>Getgets each chained object's selected property.</span>
+						<div class="usage">
+							<div class="arg">
+								<span class="argument">prop</span> <span class="type">string</span><br>
+								Name of the property or method you want to return.
+							</div>
+							<div class="arg">
+								<span class="argument">own</span> <span class="type">boolean</span><br>
+								If <span class="value">true</span> , methods are applied to the object calling <a href='#rawraw'>.rawraw()</a>, even if the owner is up the chain tree.
+							</div><span class="blue">returns</span> <span class="type">array</span>
+							<div class="alert"> 
+								<span class="red">Use with caution!</span> This method uses <a href='#getget'>.getget()</a> wich is recursive. Use with <span class="code">chain.allowloops = false</span>.
+							</div>
+							<div class="alert">
+								<span class="code">.rawraw(prop,own)[0]</span> and <span class="code">.getget(prop,own)</span> return the same.
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<div id="about" class="part">
+			<div class="center">
+				<h2>
+					About me
+				</h2>
+				<p>
+					I am a Portuguese web developer, graphic designer and drummer from the city of Porto. I love music, design and javascript. If you have any doubts, suggestions or a will to buy me a beer <a href="mailto:mail@jrvieira.com">get in touch</a>. Also check out my <a href="https://www.behance.net/josevieiradesign">portfolio</a>.
+				</p>
+			</div>
+		</div>
+	</body>
+</html>

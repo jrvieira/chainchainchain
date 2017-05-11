@@ -83,7 +83,7 @@ function chain (...arr) {
 	console.log('// ch init');
 
 	var ch = new Proxy(new Ch(arr), handler);
-	//FINDLOOPS
+	//find loops
 	if (chain.findloop(ch)) {
 		if (!settings.allowloops) throw new Error('Loop in chain', chain.findloop(ch));
 		console.warn('Loop in chain', chain.findloop(ch));
@@ -94,7 +94,7 @@ function chain (...arr) {
 
 Object.defineProperties(chain, {
 
-	set:{
+	set: {
 		value: new Proxy(settings, {
 			get: function (target, prop) {
 				return !!target[prop];
@@ -107,7 +107,7 @@ Object.defineProperties(chain, {
 		})
 	},
 	//if you create a loop there is a RangeError: Maximum call stack size exceeded
-	//so this method and the allowloops setting is obsolete ? 
+	//so this method and the allowloops setting is obsolete ?
 	findloop: {
 		value: function (ch, set = new Set()) {
 			set.add(ch);
@@ -164,7 +164,7 @@ Object.defineProperties(chain, {
 			if (!(oo instanceof Array)) oo = [oo];
 			//appends objects to chain
 			ch[chi].push(...oo);
-			//FINDLOOPS
+			//find loops
 			if (chain.findloop(ch)) {
 				if (!settings.allowloops) throw new Error('Loop in chain', chain.findloop(ch));
 				console.warn('Loop in chain', chain.findloop(ch));
@@ -180,7 +180,7 @@ Object.defineProperties(chain, {
 			if (!(oo instanceof Array)) oo = [oo];
 			//prepends objects to chain
 			ch[chi].unshift(...oo);
-			//FINDLOOPS
+			//find loops
 			if (chain.findloop(ch)) {
 				if (!settings.allowloops) throw new Error('Loop in chain', chain.findloop(ch));
 				console.warn('Loop in chain', chain.findloop(ch));
@@ -197,7 +197,7 @@ Object.defineProperties(chain, {
 			while (!(ch[chi].indexOf(x) < 0)) {
 				ch[chi].splice(ch[chi].indexOf(x),1,o);
 			}
-			//FINDLOOPS
+			//find loops
 			if (chain.findloop(ch)) {
 				if (!settings.allowloops) throw new Error('Loop in chain', chain.findloop(ch));
 				console.warn('Loop in chain', chain.findloop(ch));
@@ -218,6 +218,41 @@ Object.defineProperties(chain, {
 
 			return [...ch[chi]];
 		}
+	},
+	//removes last object from chain
+	pop: {
+		value: function (ch) {
+			if (!(ch instanceof Ch)) throw new TypeError(ch+' is not a chain');
+
+			return ch[chi].pop();
+		}
+	},
+	//removes first object from chain
+	shift: {
+		value: function (ch) {
+			if (!(ch instanceof Ch)) throw new TypeError(ch+' is not a chain');
+
+			return ch[chi].shift();
+		}
+	},
+	//removes last object from chain
+	rol: {
+		value: function (ch, n = 1) {
+			if (!(ch instanceof Ch)) throw new TypeError(ch+' is not a chain');
+
+			if (n > 0) {
+				for (let i = 0; i < n; i ++) {
+					ch[chi].push(ch[chi].shift());
+				}
+			} else if (n < 0) {
+				for (let i = 0; i > n; i --) {
+					ch[chi].unshift(ch[chi].pop());
+				}
+			}
+
+			return [...ch[chi]];
+
+		}
 	}
-	
+
 });

@@ -38,16 +38,6 @@ h3 {
 	font-size: 11px;
 }
 
-img#logo {
-	position: absolute;
-	z-index: -1;
-}
-
-img.outdented {
-	margin-top: -28px;
-	margin-left: -17px;
-}
-
 #zero {
 	border-bottom: 1px solid #e6e6e6;
 	background-image: url(img/w95.png);
@@ -114,7 +104,6 @@ a {
 	border-radius: 2px;
 	line-height: 20px;
 	padding: 3px 4px;
-	white-space: nowrap;
 }
 
 a:hover {
@@ -191,12 +180,12 @@ div.usage {
 }
 
 span.type {
-	color: #999;
+	color: #b3b3b3;
 	font-family: "Courier New", Courier, mono;
 }
 
 span.code {
-	color: #777;
+	color: #999;
 	font-family: "Courier New", Courier, mono;
 	line-height: 9px;
 }
