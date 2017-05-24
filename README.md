@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-# chainchainchain
-=======
 # chainchainchain2
->>>>>>> v2
 Liberal, unobtrusive pseudo-inheritance JavaScript micro library for OOP.
 
 ## Installation

@@ -1,11 +1,6 @@
 {
-<<<<<<< HEAD
-  "name": "chainchainchain",
-  "version": "2.0",
-=======
   "name": "chainchainchain2",
   "version": "2.0.1",
->>>>>>> v2
   "description": "Liberal pseudo-inheritance JavaScript micro library for OOP.",
   "main": "chainchainchain.js",
   "directories": {
