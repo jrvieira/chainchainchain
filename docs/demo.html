@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta http-equiv="Content-Type" content="text/html charset=utf-8">
 		<meta name="author" content="José Rafael Vieira">
 		<meta name="description" content="Liberal pseudo-inheritance JavaScript micro library for OOP.">
-		<meta name="keywords" content="chainchainchain, javascript, library, inheritance">
+		<meta name="keywords" content="chainchainchain2, javascript, library, inheritance">
 
 		<meta name="viewport" content="width=420">
 
 		<title>
-			chainchainchain
+			chainchainchain2
 		</title>
 		<link type="image/png" rel="shortcut icon" href="img/icon.png">
 		<link type="text/css" rel="stylesheet" href="chainchainchain.css">
@@ -18,22 +18,22 @@
 		<script type="text/javascript" src="js/easing.js"></script>
 		<script type="text/javascript" src="js/chain.js"></script>
 	</head>
-	<body style="-webkit-text-size-adjust:none;">
+	<body style="-webkit-text-size-adjust:none">
 		<div class="fixed">
 			<div id="zero">
 				<div class="center">
 					<div class="nav">
-					<a href="index.html"><span class="fancy">chainchainchain</span></a>
+					<a href="index.html"><span class="fancy">chainchainchain2</span></a>
 					</div>|
 					<div class="nav">
 						<a href="docs.html">Documentation</a>
 					</div>|
 					<div class="nav on">
-						<a href="demo.html">Crash course</a>
+						<a href="demo.html">Demo</a>
 					</div>
 
-					<a title="git-hub" class="source" href="https://github.com/jrvieira/chainchainchain"><i class="fa fa-github-alt fa-fw" aria-hidden="true"></i></a>
-					<a title="raw source" class="source" href="https://raw.githubusercontent.com/jrvieira/chainchainchain/master/chainchainchain.js"><i class="fa fa-code fa-fw" aria-hidden="true"></i></a>
+					<a title="git-hub" class="source" href="https://github.com/jrvieira/chainchainchain2"><i class="fa fa-github-alt fa-fw" aria-hidden="true"></i></a>
+					<a title="raw source" class="source" href="https://raw.githubusercontent.com/jrvieira/chainchainchain2/master/chainchainchain.js"><i class="fa fa-cloud-download fa-fw" aria-hidden="true"></i></a>
 
 				</div>
 			</div>
@@ -42,233 +42,307 @@
 		<div class="part"></div>
 		<div id="intro" class="part">
 			<div class="center">
-				<h1>Crash course</h1>
+			
+				<h1>Basic evaluation</h1>
 				<br>
+				
 				<p>
-					Lets assume the following <span class="fancy">being</span>, <span class="fancy">human</span>, <span class="fancy">robot</span>, <span class="fancy">cop</span> and <span class="fancy">doc</span> objects:<br>
-
-					<br><span class="code">
-					var being = { <br> &nbsp; is:'being' <br> }<br>
-					var human = { <br> &nbsp; is:'human' <br> }<br>
-					var robot = { <br> &nbsp; is:'robot' <br> }<br>
-					var cop = { <br> &nbsp; is:'cop' <br> }<br>
-					var doc = { <br> &nbsp; is:'doc' <br> }<br>
-					</span><br>
-
-					If you have an <span class="fancy">alex</span> object and add <span class="fancy">cop</span> to its chain:<br>
-
-					<br><span class="code">
-					var alex = {};<br>
-					alex.chain(cop);<br>
-					</span><br>
-
-					You can now retrieve the <span class="code">is</span> property like this:<br>
-
-					<br><span class="code">
-					alex.get('is'); <span class="return value">>>> 'cop'</span><br>
-					</span><br>
-
-					If you add an <span class="code">is</span> property to <span class="fancy">alex</span> you can then retrieve it with the <span class="code">get</span> method, looking up the inheritance chain the way a normal property lookup would, returning the first property up the chain matching the specified name:<br>
-
-					<br><span class="code">
-					alex.is = 'alex';<br>
-					alex.get('is'); <span class="return value">>>> 'alex'</span><br>
-					</span><br>
-
-					The <span class="code">raw</span> method returns an array with all the properties that match the specified name found up the object's chain:<br>
-
-					<br><span class="code">
-					alex.raw('is'); <span class="return value">>>> ['alex', 'cop']</span><br>
-					</span><br>
-
-					Note that <span class="code">alex.get('is')</span> returns the same value as <span class="code">alex.raw('is')[0]</span>. You can also add more objects to <span class="fancy">alex</span>'s chain by using the <span class="code">chain</span> method:<br>
-
-					<br><span class="code">
-					alex.chain(robot);<br>
-					alex.raw('is'); <span class="return value">>>> ['alex', 'cop', 'robot']</span><br>
-					</span><br>
-
-					It can be useful to retrieve the last value up the chain. This can be achieved by doing:<br>
+					We start by importing the module:<br>
 					
-					<br><span class="code">
-					alex.raw('is')[alex.raw('is').length-1]; <span class="value">>>> 'robot'</span><br>
-					</span><br>
-
-
-					By now, <span class="fancy">alex</span>'s chain looks something like this:<br>
-
-					<img src="img/demo1.png"><br>
-
-					If you add <span class="fancy">being</span> to the chain you get:<br>
-
-					<br><span class="code">
-					alex.chain(being);<br>
-					alex.raw('is'); <span class="return value">>>> ['alex', 'cop', 'robot', 'being']</span><br>
-					</span><br>
-
-					You get this: <br>
-
-					<img src="img/demo2.png"><br>
-
-					You can create a similar structure with only one call to the <span class="code">chain</span> method, since it accepts multiple arguments: <br>
+					<br>
 					
-					<br><span class="code">
-					var joe = { <br> &nbsp; is:'joe' <br> }<br>
-					joe.chain(cop, human, being);<br>
-					joe.raw('is'); <span class="return value">>>> ['joe', 'cop', 'human', 'being']</span><br>
-					</span><br>
+					<span class="code">
+					const chain = require('chainchainchain2')<br>
+					</span>
+					
+					<br>
+					
+					Consider the following <span class="fancy">being</span>, <span class="fancy">robot</span>, <span class="fancy">robot</span>, <span class="fancy">cop</span> and <span class="fancy">doc</span> objects.<br>
 
-					So now you have this: <br>
-
-					<img src="img/demo3.png"><br>
-
-					Both <span class="fancy">joe</span> and <span class="fancy">alex</span> only inherit from the same <span class="fancy">cop</span> and <span class="fancy">being</span> objects. While changes to those objects will affect the values returned by <span class="fancy">joe</span> and <span class="fancy">alex</span>'s <span class="code">get</span> and <span class="code">raw</span> methods, <span class="fancy">joe</span> remains independent from <span class="fancy">robot</span> and <span class="fancy">alex</span> remains independent from <span class="fancy">human</span>.<br>
-
-					<br><span class="code">
-					robot.laws = ['cause no harm', 'obey', 'protect self'];<br>
-					alex.get('laws'); <span class="return value">>>> ['cause no harm', 'obey', 'protect self']</span><br>
-					joe.get('laws'); <span class="return value">>>> undefined</span><br>
-					</span><br>
-
-					It's important to know that these values are not being copied, they are being passed by reference. They are as live as they can be. Now let's consider the following:<br>
-
-					<br><span class="code">
-					being.think = function() { <br> &nbsp; return 'i am '+this.is; <br> }<br>
-					alex.get('think')(); <span class="return value">>>> 'i am being'</span><br>
-					joe.get('think')(); <span class="return value">>>> 'i am being'</span><br>
-					</span><br>
-
-					It makes sense. The <span class="code">think</span> method is returned normally and interprets <span class="code">this</span> as a reference to the object it belongs to when called. Now, what if you want to reference the bottommost object in the chain, giving <span class="fancy">being</span>'s methods access to their properties? To do that you use <span class="code">get</span>'s second parameter that, if set to <span class="value">true</span>, applies the methods to the object calling it even if the owner is up the chain.<br>
-
-					<br><span class="code">
-					alex.get('think', 1)(); <span class="return value">>>> 'i am alex'</span><br>
-					joe.get('think', 1)(); <span class="return value">>>> 'i am joe'</span><br>
-					</span><br>
-
+					<br>
+					
+					<span class="code">
+					let being = { is: 'being' }, human = { is: 'human' }, robot = { is: 'robot' }, cop = { is: 'cop' }, doc = { is: 'doc' }<br>
+					</span>
+					
+					<br>
+					
+					Let's create an object <span class="fancy">alex</span> so we can then chain it to <span class="fancy">cop</span>, <span class="fancy">robot</span> and <span class="fancy">being</span>.<br>
+					
+					<br>
+					
+					<span class="code">
+					let alex = { name: 'alex' }<br>
+					</span>
+					
+					<br>
+					
+					Now we create a chain. We can make it a separate object however a more useful and elegant way is to assign it as a property of <span class="fancy">alex</span>.<br>
+					
+					<br>
+					
+					<span class="code">
+					alex.ch = chain(alex, cop, robot) <span class="returnvalue">>>> Ch {}</span><br>
+					</span>
+					
+					<br>
+					
+					Let's use our evaluation methods on this new chain object.<br>
+					
+					<br>
+					
+					<span class="code">
+					chain.is(alex.ch) <span class="returnvalue">>>> true</span><br>
+					</span>
+					<span class="code">
+					chain.origin(alex.ch) <span class="returnvalue">>>> { name: 'alex', ch: Ch {} }</span><br>
+					</span>
+					<span class="code">
+					chain.arr(alex.ch) <span class="returnvalue">>>> [ { name: 'alex', ch: Ch {} }, { is: 'cop' }, { is: 'robot' } ]</span><br>
+					</span>
+					
+					<br>
+					
+					As expected we confirm that we have a chain, that its origin is our object <span class="fancy">alex</span> and that the whole chain is composed by <span class="fancy">alex</span>, <span class="fancy">cop</span> and <span class="fancy">robot</span>.<br>
+					
+					<img src="img/demo1.png">
+					
+					<br>
+					
+					If we add being to the chain we get: <br>
+					
+					<br>
+					
+					<span class="code">
+					chain.add(alex.ch, being) <span class="returnvalue">>>> [ { name: 'alex', ch: Ch {} },
+					  { is: 'cop' },
+					  { is: 'robot' },
+					  { is: 'being' } ]</span><br>
+					</span>
+					
+					<img src="img/demo2.png">
+					
+					<br>
+					
+					The chain object returns inherited properties like you would expect of an inheritance chain: <br>
+					
+					<br>
+					
+					<span class="code">
+					alex.ch.name <span class="returnvalue">>>> 'alex'</span><br>
+					</span>
+					<span class="code">
+					alex.ch.is <span class="returnvalue">>>> 'cop'</span><br>
+					</span>
+					
+					<br>
+					
+					We got the <span class="code">name</span> property from <span class="fancy">alex</span> and the <span class="code">is</span> property from <span class="fancy">cop</span> as it's the youngest chained object with that property. We can get all the <span class="code">is</span> properties of this chain in one method call:<br>
+					
+					<br>
+					
+					<span class="code">
+					chain.raw(alex.ch, 'is') <span class="returnvalue">>>> [ undefined, 'cop', 'robot', 'being' ]</span><br>
+					</span>
+					
+					<br>
+					
 				</p>
+				
+				<h1>Methods</h1>
+				<br>
+				
+				<p>
+				
+				Methods work as expected:<br>
+									
+				<br>
+									
+				<span class="code">
+				being.hi = function () { <br>
+				&nbsp; return 'Hi, my name is ' + this.name + ' and I am a ' + this.is; <br>
+				} <br>
+				</span>
+				
+				<span class="code">
+				alex.ch.hi() <span class="returnvalue">>>> 'Hi, my name is alex and I am a cop'</span><br>
+				</span>
+				
+				<br>
+				
+				The chain inherits the method <span class="code">hi</span> from <span class="fancy">being</span> and apllies it to itself by default (you can change this setting). The chain object runs the function in its own context, returning <span class="code">this.name</span> from <span class="fancy">alex</span> and <span class="code">this.is</span> from <span class="fancy">cop</span>. <br>
+				
+				<br>
+				
+				</p>
+				
+				
+				<h1>Diamond inheritance</h1>
+				<br>
+				
+				<p>
+				
+				Chains are independent from each other: <br>
+				
+				<br>
+				
+				<span class="code">
+				let joe = { name: 'joe' } <br>
+				</span>
+				<span class="code">
+				joe.ch = chain(joe, cop, human, being) <span class="returnvalue">>>> Ch {}</span><br>
+				</span>
+				
+				<img src="img/demo3.png">
+				
+				<br>
+				
+				<span class="code">
+				joe.ch.hi() <span class="returnvalue">>>> 'Hi, my name is joe and I am a cop'</span><br>
+				</span>
+				<span class="code">
+				alex.ch.hi() <span class="returnvalue">>>> 'Hi, my name is alex and I am a cop'</span><br>
+				</span>
+				<span class="code">
+				delete cop.is <span class="returnvalue">>>> true</span><br>
+				</span>
+				<span class="code">
+				joe.ch.hi() <span class="returnvalue">>>> 'Hi, my name is joe and I am a human'</span><br>
+				</span>
+				<span class="code">
+				alex.ch.hi() <span class="returnvalue">>>> 'Hi, my name is alex and I am a robot'</span><br>
+				</span>
+
+				<br>
+				
+				</p>
+				
 				<h1>Branching</h1>
 				<br>
 				
 				<p>
+				You can chain chain objects creating complex inheritance trees. Let's replace <span class="fancy">cop</span> by a new chain containing <span class="fancy">cop</span> and a new <span class="fancy">skilled</span> object.<br>
+				
+				<br>
+				
+				<span class="code">
+				
+				let skilled = { <br>
+				&nbsp; is: 'skilled', <br>
+				&nbsp; skill: 'shooting' <br>
+				} <br>
+				cop.is = 'cop' <span class="returnvalue">>>> 'cop'</span><br>
+				let branch = chain(cop, skilled) <span class="returnvalue">>>> Ch {}</span><br>
+				
+				chain.rep(alex.ch, cop, branch) <span class="returnvalue">>>> [ { name: 'alex', ch: Ch {} },
+				  Ch {},
+				  { is: 'robot' },
+				  { is: 'being', hi: [Function] } ]</span><br>
+				chain.rep(joe.ch, cop, branch) <span class="returnvalue">>>> [ { name: 'joe', ch: Ch {} },
+				  Ch {},
+				  { is: 'human' },
+				  { is: 'being', hi: [Function] } ]</span><br>
+				
+				</span>
+				
+				
+				<img src="img/demo4.png">
+				
+				<br>
+				
+				<br>
+				
+				<span class="fancy">alex.ch</span> keeps it's length of 4 objects: <br>
+				
+				<img src="img/demo5.png">
+				
+				<br>
+				
+				<span class="code">
+				chain.arr(alex.ch).length <span class="returnvalue">>>> 4</span><br>
+				</span>
+				
+				<br>
+				
+				But we now have access to the <span class="fancy">skilled</span> object's properties.<br>
+				
+				<img src="img/demo6.png">
+				
+				<br>
 
-					If an object <span class="fancy rose">A</span> inherits from an object <span class="fancy blue">B</span> wich in turn has its own inheritance chain we say this chain is a branch of <span class="fancy rose">A</span>'s. The <span class="code">get</span> and <span class="code">raw</span> methods ignore <span class="fancy blue">B</span>'s chain when called upon <span class="fancy rose">A</span>. Let's create a branch in the current chain:<br>
-
-					<br><span class="code">
-					var skilled = { <br> &nbsp; is:'skilled', <br> &nbsp; skill:'shooting'<br> }<br>
-					cop.chain(skilled);<br>
-
-					<img src="img/demo4.png"><br>
-
-					alex.get('skill'); <span class="return value">>>> undefined</span><br>
-					alex.raw('skill'); <span class="return value">>>> [undefined, undefined, undefined, undefined]</span><br>
-					</span>
-
-
-
-					<img src="img/demo5.png"><br>
-
-					The object <span class="fancy">cop</span> now has its own chain wich creates a branch for <span class="fancy">alex</span>'s chain. As demonstrated, both <span class="code">get</span> and <span class="code">raw</span> ignore this branch that is <span class="fancy">cop</span>'s chain. You can include all branches in our lookups by using the methods <span class="code">getget</span> and <span class="code">rawraw</span>. These methods look up the entire chain tree:<br>
-
-					<br><span class="code">
-					alex.getget('skill'); <span class="return value">>>> 'shooting'</span><br>
-					alex.rawraw('skill'); <span class="return value">>>> ['shooting', 'shooting', undefined, undefined]</span><br>
-					</span>
-					
-					<img src="img/demo6.png"><br>
-
-					This is of course also true for <span class="fancy">joe</span>:<br>
-
-					<br><span class="code">
-					joe.getget('skill'); <span class="return value">>>> 'shooting'</span><br>
-					joe.rawraw('skill'); <span class="return value">>>> ['shooting', 'shooting', undefined, undefined]</span><br>
-					</span>
-
-					<img src="img/demo7.png"><br>
-
-					By being aware of the whole chain tree, the method <span class="code">rawraw</span> always returns the inherited values of each object in the chain. In this case <span class="fancy">alex</span> and <span class="fancy">joe</span> inherit the <span class="code">skill</span> property from <span class="fancy">cop</span>, wich in turn inherits it from <span class="fancy">skilled</span>. The property <span class="code">skill</span> isn't found in <span class="fancy">being</span>, <span class="fancy">robot</span> nor <span class="fancy">human</span>.
-
-				</p><p>
-
-					Priority is indicated by the numbers 1 through 4. Notice that younger chained objects's chains are considered younger than older chained objects. This means that if a property <span class="code">skill</span> is found in cop, that value takes precedence and it will be the one inherited down the chain:<br>
-
-					<br><span class="code">
-					cop.skill = 'driving';<br>
-					alex.getget('skill'); <span class="return value">>>> 'driving'</span><br>
-					alex.rawraw('skill'); <span class="return value">>>> ['driving', 'driving', undefined, undefined]</span><br>
-					</span><br>
-
-					Similarly, if the object <span class="fancy">skilled</span> has a property <span class="code">laws</span> its value will take precedence over <span class="fancy">robot</span>'s laws:<br>
-
-					<br><span class="code">
-					skilled.laws = 'kick ass';<br>
-					alex.getget('laws'); <span class="return value">>>> 'kick ass'</span><br>
-					alex.rawraw('laws'); <span class="return value">>>> ['kick ass', 'kick ass', ['cause no harm', 'obey', 'protect self'], undefined]</span><br>
-					</span><br>
-
-					This means <span class="fancy">alex</span>'s <span class="code">getget</span> will now return <span class="code">'kick ass'</span> instead of <span class="code">['cause no harm', 'obey', 'protect self']</span> when looking for the <span class="code">laws</span> property. The method <span class="code">rawraw</span>, similarly to <span class="code">raw</span>, will always return an array with the lenght being equal to the number of objects in its owner immediate chain (this includes the owner). Branches to the chain are ignored by both <span class="fancy">alex</span>'s <span class="code">get</span> and <span class="code">raw</span>, meaning in this case that <span class="fancy">skilled</span> is only visible to <span class="code">getget</span> and <span class="code">rawraw</span>:<br>
-
-					<br><span class="code">
-					alex.get('skill'); <span class="return value">>>> 'driving'</span><br>
-					alex.raw('skill'); <span class="return value">>>> [undefined, 'driving', undefined, undefined]</span><br>
-					alex.get('laws'); <span class="return value">>>> ['cause no harm', 'obey', 'protect self']</span><br>
-					alex.raw('laws'); <span class="return value">>>> [undefined, undefined, ['cause no harm', 'obey', 'protect self'], undefined]</span><br>
-					</span><br>
-
-					For debugging purposes it's made available the property <span class="code">chainage</span> wich is an array of references to every object in its owner's chain (not including itself):<br>
-
-					<br><span class="code">
-					alex.chainage; <span class="return value">>>> [{...}, {...}, {...}]</span><br>
-					</span><br>
-
-					These objects are <span class="fancy">cop</span>, <span class="fancy">robot</span> and <span class="fancy">being</span>. This way you can also verify that <span class="fancy">cop</span> only has <span class="fancy">skilled</span> in its chain:<br>
-
-					<br><span class="code">
-					cop.chainage; <span class="return value">>>> [{is:'skilled', laws:'kick ass', skill:'shooting'}]</span><br>
-					</span><br>
-
-
+				<span class="code">
+				alex.ch.skill <span class="returnvalue">>>> 'shooting'</span><br>
+				<br>
+				
+				<span class="code">
+				alex.ch.is <span class="returnvalue">>>> 'cop'</span><br>
+				chain.raw(alex.ch, 'is') <span class="returnvalue">>>> [ undefined, 'cop', 'robot', 'being' ]</span><br>
+				delete cop.is <span class="returnvalue">>>> true</span><br>
+				chain.raw(alex.ch, 'is') <span class="returnvalue">>>> [ undefined, 'skilled', 'robot', 'being' ]</span><br>
+				alex.ch.is <span class="returnvalue">>>> 'skilled'</span><br>
+				</span>
+				
+				<br>
+				
+				The same for <span class="fancy">joe.ch</span>: <br>
+				
+				<img src="img/demo7.png">
+				
+				<br>
+				
+				<span class="code">
+				chain.raw(joe.ch, 'is') <span class="returnvalue">>>> [ undefined, undefined, 'human', undefined ]</span><br>
+				skilled.is = 'skilled' <span class="returnvalue">>>> 'skilled'</span><br>
+				chain.raw(joe.ch, 'is') <span class="returnvalue">>>> [ undefined, 'skilled', 'human', undefined ]</span><br>
+				cop.is = 'cop' <span class="returnvalue">>>> 'cop'</span><br>
+				chain.raw(joe.ch, 'is') <span class="returnvalue">>>> [ undefined, 'cop', 'human', undefined ]</span><br>
+				</span>
+								
+				<br>
+				
 				</p>
-				<h1>Loops</h1>
+				
+				<h1>Changing default behaviour</h1>
 				<br>
 				
 				<p>
-					<span class="fancy">chainchainchain</span> allows for loops to be designed however they are not desirable due to the recursive nature of <span class="code">getget</span> and <span class="code">rawraw</span>. For this reason an Error is thrown if a loop is detected in the hierarchy chains and a Warning indicates wich object was found repeatedly up the chain:<br>
-
-					<br><span class="code">
-					being.chain(alex); <span class="return value"><span class="red">xxx Error: loop in chain tree</span> <span class="orange">!!! 'Looping' {is:'being', think:function(){...}}</span></span><br>
-					</span><br>
-					
-
-					You can change this behaviour by setting <span class="code">Object.prototype.chain.allowloops</span> to <span class="value">true</span>. This way you are granted permission to design loops in your chains and you just get a Warning in case you run <span class="code">getget</span> or <span class="code">rawraw</span>, as by doing so you risk entering an infinite loop and crashing your program.<br>
-
-					<br><span class="code">
-					chain.allowloops = true;<br>
-					alex.getget('think', 1)(); <span class="return value">>>> 'i am alex' <span class="orange">!!! 'Getget called while chain.allowloops is set to true.'</span></span><br>
-					</span><br>
-
-				</p>
-				<h1><span class="fancy">chainchainchain</span> is chainable!</h1>
+				You can change the way the chain behaves through the <span class="code">chain.set</span> object: <br>
+				
 				<br>
 				
-				<p>
-
-					<span class="fancy">chainchainchain</span> manipulation methods always return the object they're called on:<br>
-					
-					<br><span class="code">
-					being.chain(skilled); <span class="return value">>>> {is:'being', think:function(){...}}</span><br>
-					</span><br>
-
-					Chaining allows you to run multiple Chain manipulation methods on the same element within a single statement:<br>
-
-					<br><span class="code">
-					alex.chain(skilled).dechain(cop, robot, being).inchain(human).is; <span class="return value">>>> 'alex'</span><br>
-					alex.raw('is'); <span class="return value">>>> ['alex', 'human', 'skilled']</span><br>
-					</span><br>
-					
-					That's inchain.
-
+				<span class="code">
+				chain.set.owncontext = true <span class="returnvalue">>>> true</span><br>
+				</span>
+				Binds methods to their corresponding object's context instead of the origin object. <br>
+				<br>
+				<span class="code">
+				<s>chain.set.allowloops = true<br></s>
+				</span>
+				<i>This setting has been deprecated.</i><br>
+				<br>
+				<span class="code">
+				chain.set.allowloops = true <span class="returnvalue">>>> true</span><br>
+				</span>
+				Allows for inheritance loops when chaining chain objects.  <br>
+				<br>
+				<span class="code">
+				chain.set.setchained = true <span class="returnvalue">>>> true</span><br>
+				</span>
+				Sets values on the youngest chained object with the existing property instead of the origin. <br>
+				<br>
+				
+				All values of the <span class="code">set</span> object default to <span class="value">false</span> and are converted to a boolean if we attribute them a value of another type. <br>
+				
+				<br>
+				
+				
 				</p>
-				<p>Keep in mind that all of this is independent from the prototypical inheritance scheme, so you can use both tools at the same time to create truly intricate functionalities in your programs.</p>
+				
+				
+				
+				<p>
+				All of this is independent from the prototypical inheritance scheme, so you can use both tools at the same time to create truly intricate functionalities in your programs at a low cost.
+				</p>
 			</div>
 		</div>
 		<div id="about" class="part">
