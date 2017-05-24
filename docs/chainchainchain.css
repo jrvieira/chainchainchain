@@ -196,7 +196,11 @@ span.type {
 }
 
 span.code {
+<<<<<<< HEAD
 	color: #777;
+=======
+	color: #666;
+>>>>>>> v2
 	font-family: "Courier New", Courier, mono;
 	line-height: 9px;
 }
@@ -234,6 +238,11 @@ span.rose {
 
 span.value {
 	color: #00ce79;
+}
+
+span.returnvalue {
+	color: #1783fb;
+	font-style: italic;
 }
 
 span.green {

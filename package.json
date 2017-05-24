@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
   "name": "chainchainchain",
   "version": "2.0",
+=======
+  "name": "chainchainchain2",
+  "version": "2.0.1",
+>>>>>>> v2
   "description": "Liberal pseudo-inheritance JavaScript micro library for OOP.",
   "main": "chainchainchain.js",
   "directories": {
@@ -11,13 +16,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jrvieira/chainchainchain.git"
+    "url": "git+https://github.com/jrvieira/chainchainchain2.git"
   },
   "keywords": [],
-  "author": "José Rafael Vieira",
+  "author": "jrvieira",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jrvieira/chainchainchain/issues"
+    "url": "https://github.com/jrvieira/chainchainchain2/issues"
   },
-  "homepage": "http://chainchainchain.jrvieira.com"
+  "homepage": "http://chainchainchain2.jrvieira.com"
 }

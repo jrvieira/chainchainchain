@@ -23,6 +23,10 @@ $(function(){
 		});
 		
 		var defaultmethodname = $('#defaultmethodname').eq(0).text();
+<<<<<<< HEAD
+=======
+		$('span.defaultmethodname').text(defaultmethodname);
+>>>>>>> v2
 		
 		
 		$('div#default.method').find('span.method').eq(0).prepend(defaultmethodname);

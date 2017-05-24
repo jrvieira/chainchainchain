@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2016 José Rafael Vieira
+Copyright (c) 2016 jrvieira
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -38,7 +38,11 @@ var settings = Object.preventExtensions({
 const chi = Symbol('chi');
 
 var handler = {
+<<<<<<< HEAD
 	get: function (target, prop) {
+=======
+	get: function (target, prop, receiver) {
+>>>>>>> v2
 		if (prop === chi) return target[chi];
 		//if (prop === rvk) return target.
 		//get youngest
@@ -52,7 +56,11 @@ var handler = {
 
 			if (typeof o[prop] !== 'undefined') {
 				//x && y => if x is true returns y, else returns x
+<<<<<<< HEAD
 				return o[prop] instanceof Function ? o[prop].bind(!settings.owncontext && target[chi][0] || o) : o[prop];
+=======
+				return o[prop] instanceof Function ? o[prop].bind(!settings.owncontext && receiver || o) : o[prop];
+>>>>>>> v2
 			}
 		}
 		return p;
@@ -76,9 +84,16 @@ function Ch (arr) {
 	this[chi] = arr;
 }
 
+<<<<<<< HEAD
 function chain (...arr) {
 	//validate o
 	if (typeof arr === 'undefined') throw new TypeError('Argument undefined');
+=======
+function chain (...oo) {
+	//validate o
+	if (typeof oo === 'undefined') throw new TypeError('Argument undefined');
+	let arr = (oo.length) ? oo : [{}];
+>>>>>>> v2
 	//validate ch
 	console.log('// ch init');
 
