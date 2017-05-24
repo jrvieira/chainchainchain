@@ -1,25 +1,25 @@
-# chainchainchain2
+# chainchainchain
 Liberal, unobtrusive pseudo-inheritance JavaScript micro library for OOP.
 
 ## Installation
 
 npm
 
-	$ npm install chainchainchain2
+	$ npm install chainchainchain
 
 bower
 
-	$ bower install chainchainchain2
+	$ bower install chainchainchain
 
 ## Usage
 
 ```javascript
-const chain = require('chainchainchain2');
+const chain = require('chainchainchain');
 ```
 
 ## Documentation
 
-[jrvieira.github.io/chainchainchain2](http://jrvieira.github.io/chainchainchain2)
+[jrvieira.github.io/chainchainchain](http://jrvieira.github.io/chainchainchain)
 
 
 ###### Licensed under the MIT license.
