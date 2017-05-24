@@ -14,7 +14,7 @@ bower
 ## Usage
 
 ```javascript
-const chain = require('chainchainchain');
+const chain = require('chainchainchain')
 ```
 
 ## Documentation
