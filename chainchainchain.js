@@ -42,7 +42,6 @@ var handler = {
 		if (prop === chi) return target[chi];
 		//if (prop === rvk) return target.
 		//get youngest
-		var p;
 		var avoid = chain.findloop(target);
 		if (!settings.allowloops && avoid) throw new Error('Loop in chain', avoid);
 
@@ -55,7 +54,7 @@ var handler = {
 				return o[prop] instanceof Function ? o[prop].bind(!settings.owncontext && receiver || o) : o[prop];
 			}
 		}
-		return p;
+		return undefined;
 	},
 	set: function (target, prop, value) {
 		if (prop === chi) return target[chi] = value;

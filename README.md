@@ -7,9 +7,6 @@ npm
 
 	$ npm install chainchainchain
 
-bower
-
-	$ bower install chainchainchain
 
 ## Usage
 
