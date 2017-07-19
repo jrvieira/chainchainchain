@@ -198,7 +198,6 @@ span.type {
 span.code {
 	color: #666;
 	font-family: "Courier New", Courier, mono;
-	line-height: 9px;
 }
 
 span.black {
@@ -239,6 +238,7 @@ span.value {
 span.returnvalue {
 	color: #1783fb;
 	font-style: italic;
+	display: block;
 }
 
 span.green {
