@@ -3,7 +3,9 @@ Liberal, unobtrusive pseudo-inheritance JavaScript micro library for OOP.
 
 ## Installation
 
-$ npm install chainchainchain
+npm
+
+	$ npm install chainchainchain
 
 
 ## Usage
