@@ -26,7 +26,7 @@ SOFTWARE.
 module.exports = chain
 
 // every setting defaults to false
-var settings = Object.preventExtensions({
+let settings = Object.preventExtensions({
 	owncontext: false, // functions remain in owner's context
 	//uniqueness: false, // prevent duplicate objects in chain
 	allowloops: false, // allow loops (only happens when chaining Ch objects)
@@ -35,12 +35,12 @@ var settings = Object.preventExtensions({
 
 const chi = Symbol('chi')
 
-var handler = {
+let handler = {
 	get: function (target, prop, receiver) {
 
 		if (prop === chi) return target[chi]
 		// get youngest
-		var avoid = chain.findloop(target)
+		let avoid = chain.findloop(target)
 
 		if (!settings.allowloops && avoid) throw new Error('Loop in chain', avoid)
 
@@ -60,7 +60,7 @@ var handler = {
 
 		if (prop === chi) return target[chi] = value
 
-		var origin = target[chi][0]
+		let origin = target[chi][0]
 
 		if (!settings.setchained) return origin[prop] = value
 		// set youngest
@@ -87,7 +87,7 @@ function chain (...oo) {
 	// validate ch
 	console.log('//  ch init')
 
-	var ch = new Proxy(new Ch(arr), handler)
+	let ch = new Proxy(new Ch(arr), handler)
 	// find loops
 	if (chain.findloop(ch)) {
 		if (!settings.allowloops) throw new Error('Loop in chain', chain.findloop(ch))
@@ -157,8 +157,8 @@ Object.defineProperties(chain, {
 			// validate p
 			if (typeof prop === 'undefined') throw new TypeError('Argument undefined')
 
-			var raw = []
-			var own = []
+			let raw = []
+			let own = []
 
 			for (let o of ch[chi]) {
 				// x && y => if x is true returns y, else returns x
