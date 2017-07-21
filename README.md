@@ -1,6 +1,8 @@
 ## Installation
 
+```shell
 	$ npm install chainchainchain
+```
 
 
 ## Usage
