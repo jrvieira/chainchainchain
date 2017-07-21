@@ -1,7 +1,7 @@
 ## Installation
 
 ```shell
-	$ npm install chainchainchain
+$ npm install chainchainchain
 ```
 
 
