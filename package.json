@@ -1,6 +1,6 @@
 {
   "name": "chainchainchain",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Liberal inheritance JavaScript micro library for OOP.",
   "main": "chainchainchain.js",
   "directories": {
