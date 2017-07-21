@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta name="author" content="José Rafael Vieira">
-		<meta name="description" content="Liberal pseudo-inheritance JavaScript micro library for OOP.">
+		<meta name="description" content="Liberal inheritance JavaScript micro library for OOP.">
 		<meta name="keywords" content="chainchainchain, javascript, library, inheritance">
 
 		<meta name="viewport" content="width=420">
@@ -31,7 +31,7 @@
 					<div class="nav">
 						<a href="demo.html">Demo</a>
 					</div>
-					
+
 					<a title="git-hub" class="source" href="https://github.com/jrvieira/chainchainchain"><i class="fa fa-github-alt fa-fw" aria-hidden="true"></i></a>
 					<a title="raw source" class="source" href="https://raw.githubusercontent.com/jrvieira/chainchainchain/master/chainchainchain.js"><i class="fa fa-cloud-download fa-fw" aria-hidden="true"></i></a>
 
@@ -45,7 +45,7 @@
 				<h1>Documentation</h1>
 				<br>
 				<p>
-					This non-linear pseudo-inheritance micro library allows for independent chain objects to be created. You can return properties and methods of chained objects directly through your chain objects and manipulate and evaluate your chain objects via the methods described in this document. You can import this module any way you like but for the purpose of this document let's assume the following:
+					This non-linear inheritance micro library allows for independent chain objects to be created. You can return properties and methods of chained objects directly through your chain objects and manipulate and evaluate your chain objects via the methods described in this document. You can import this module any way you like but for the purpose of this document let's assume the following:
 				</p>
 				<p>
 					<span class="code">const <b><span id="defaultmethodname">chain</span></b> = require('chainchainchain');</span>
@@ -55,15 +55,15 @@
 		<div id="index" class="part">
 			<div class="center">
 				<div id="contents">
-					
+
 				</div>
 			</div>
 		</div>
 		<div id="methods" class="part">
 			<div class="center">
-				
+
 				<div id="Manipulation" class="col">
-				
+
 					<div id="default" class="method">
 						<span class="method"> ( <span class="argument">obj</span> [, <span class="argument">obj</span> , <span class="argument">...]</span> )</span> <span class='desc'>Create a chain object.</span>
 						<div class="usage">
@@ -72,10 +72,10 @@
 								Objects from which to inherit.
 							</div>
 							<span class="blue">returns</span> <span class="type">{ Chain object }</span>
-							<div class="alert"> 
+							<div class="alert">
 								<span class="red">Mind</span> that the rightmost objects always become the oldest in chain as this method adds to the top of the chain. If you want to add to the bottom of the chain, use <a href='#pre'></a>.
 							</div>
-							<div class="alert"> 
+							<div class="alert">
 								<span class="argument">set.owncontext</span>
 								<span class="type">property</span>
 								<br>
@@ -84,18 +84,18 @@
 								<br>
 								<i>The origin object is the youngest one, at the bottom of the chain.</i>
 							</div>
-							<div class="alert"> 
+							<div class="alert">
 								<s><span class="argument">set.uniqueness</span></s>
 								<br>
 								<i>This setting has been deprecated.</i>
 							</div>
-							<div class="alert"> 
+							<div class="alert">
 								<span class="argument">set.allowloops</span>
 								<span class="type">property</span>
 								<br>
 								Allow for inheritance loops when chaining chain objects. Defaults to <span class="value">false</span>.
 							</div>
-							<div class="alert"> 
+							<div class="alert">
 								<span class="argument">set.setchained</span>
 								<span class="type">property</span>
 								<br>
@@ -115,7 +115,7 @@
 								Object or array of objects to add to the top of the chain.
 							</div>
 							<span class="blue">returns</span> <span class="type">array</span>
-							<div class="alert"> 
+							<div class="alert">
 								<span class="red">Mind</span> that the rightmost objects always become the eldest in chain as this method adds to the top of the chain. If you want to add to the bottom of the chain, use <a href='#pre'></a>.
 							</div>
 							<div class="alert">
@@ -135,7 +135,7 @@
 								Object or array of objects to add to the bottom of the chain.
 							</div>
 							<span class="blue">returns</span> <span class="type">array</span>
-							<div class="alert"> 
+							<div class="alert">
 								<span class="red">Mind</span> that the leftmost objects always become the youngest in chain as this method adds to the bottom of the chain. If you want to add to the top of the chain, use <a href='#add'></a>.
 							</div>
 							<div class="alert">
@@ -159,7 +159,7 @@
 								Object to replace <span class="argument">x</span> with.
 							</div>
 							<span class="blue">returns</span> <span class="type">array</span>
-							<div class="alert"> 
+							<div class="alert">
 								<span class="red">Mind</span> that this method replaces all instances of <span class="argument">x</span> in the chain.
 							</div>
 							<div class="alert">
@@ -179,7 +179,7 @@
 								Objects to remove.
 							</div>
 							<span class="blue">returns</span> <span class="type">object</span>
-							<div class="alert"> 
+							<div class="alert">
 								<span class="red">Mind</span> that this method removes all instances of <span class="fancy">x</span> in the chain.
 							</div>
 							<div class="alert">
@@ -233,9 +233,9 @@
 							</div>
 						</div>
 					</div>
-					
+
 				</div>
-			
+
 				<div id="Evaluation" class="col">
 
 					<div id="is" class="method">
@@ -301,9 +301,9 @@
 							</div>
 						</div>
 					</div>
-					
+
 				</div>
-				
+
 			</div>
 		</div>
 		<div id="about" class="part">

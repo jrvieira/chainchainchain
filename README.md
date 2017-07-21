@@ -1,9 +1,4 @@
-# chainchainchain
-Liberal, unobtrusive pseudo-inheritance JavaScript micro library for OOP.
-
 ## Installation
-
-npm
 
 	$ npm install chainchainchain
 
@@ -12,7 +7,14 @@ npm
 
 ```javascript
 const chain = require('chainchainchain')
+
+let obj = chain({x:'chain'}, {y:'chain'}, {z:'chain'})
+
+obj.x // 'chain'
+obj.y // 'chain'
+obj.z // 'chain'
 ```
+
 
 ## Documentation
 
