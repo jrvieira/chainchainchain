@@ -10,7 +10,9 @@ const chain = require('chainchainchain')
 
 let obj = chain({x:'chain'}, {y:'chain'}, {z:'chain'})
 
-[obj.x, obj.y, obj.z] // [ 'chain', 'chain', 'chain' ]
+obj.x // 'chain'
+obj.y // 'chain'
+obj.z // 'chain'
 ```
 
 ## Documentation
