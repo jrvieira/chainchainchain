@@ -15,6 +15,7 @@ obj.y // 'chain'
 obj.z // 'chain'
 ```
 
+
 ## Documentation
 
 [jrvieira.github.io/chainchainchain](http://jrvieira.github.io/chainchainchain)
