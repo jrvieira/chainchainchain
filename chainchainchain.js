@@ -265,11 +265,11 @@ Object.defineProperties(chain, {
 			if (!(ch instanceof Ch)) throw new TypeError(ch+' is not a chain')
 
 			if (n > 0) {
-				for (let i = 0 i < n i ++) {
+				for (let i = 0; i < n; i ++) {
 					ch[chi].push(ch[chi].shift())
 				}
 			} else if (n < 0) {
-				for (let i = 0 i > n i --) {
+				for (let i = 0; i > n ;i --) {
 					ch[chi].unshift(ch[chi].pop())
 				}
 			}
