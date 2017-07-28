@@ -211,6 +211,7 @@ Object.defineProperties(chain, {
 		value: function (ch, x, o) {
 
 			if (!(ch instanceof Ch)) throw new TypeError(ch+' is not a chain')
+			if (typeof x === 'undefined' || typeof o === 'undefined') throw new Error('not enough arguments')
 			// replaces objects in chain
 			while (!(ch[chi].indexOf(x) < 0)) {
 				ch[chi].splice(ch[chi].indexOf(x),1,o)
@@ -264,11 +265,11 @@ Object.defineProperties(chain, {
 			if (!(ch instanceof Ch)) throw new TypeError(ch+' is not a chain')
 
 			if (n > 0) {
-				for (let i = 0 i < n i ++) {
+				for (let i = 0; i < n; i ++) {
 					ch[chi].push(ch[chi].shift())
 				}
 			} else if (n < 0) {
-				for (let i = 0 i > n i --) {
+				for (let i = 0; i > n ;i --) {
 					ch[chi].unshift(ch[chi].pop())
 				}
 			}
