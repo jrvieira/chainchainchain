@@ -83,7 +83,7 @@ function chain (...oo) {
 	// validate o
 	if (typeof oo === 'undefined') throw new TypeError('Argument undefined')
 
-	let arr = (oo.length) ? oo : [{}]
+	let arr = oo.length ? oo : [{}]
 	// validate ch
 	console.log('//  ch init')
 
