@@ -258,7 +258,7 @@ Object.defineProperties(chain, {
 			return ch[chi].shift()
 		}
 	},
-	// removes last object from chain
+	// rotates objects in chain
 	rol: {
 		value: function (ch, n = 1) {
 
