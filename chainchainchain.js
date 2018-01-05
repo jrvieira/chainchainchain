@@ -22,34 +22,42 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-// export default chain // import chain from 'chainchainchain'
+// import chain from 'chainchainchain'
+//export default chain
 module.exports = chain
 
-// every setting defaults to false
 let settings = Object.preventExtensions({
 	owncontext: false, // functions remain in owner's context
 	//uniqueness: false, // prevent duplicate objects in chain
 	allowloops: false, // allow loops (only happens when chaining Ch objects)
-	setchained: false // values are set on its youngest owner in chain
-})
+	setchained: false // values are set on the youngest chained owner
+}) // every setting defaults to false
 
+const origin = Symbol('origin')
 const chi = Symbol('chi')
+
+function Ch (arr) {
+	this[origin] = {}
+	this[chi] = arr
+}
 
 let handler = {
 	get: function (target, prop, receiver) {
-
+		// return origin
+		if (prop === origin) return target[origin]
+		// return chi
 		if (prop === chi) return target[chi]
-		// get youngest
+		// avoid loop object
 		let avoid = chain.findloop(target)
 
 		if (!settings.allowloops && avoid) throw new Error('Loop in chain', avoid)
-
-		for (let o of target[chi]) {
-
+		// iterate through origin and chained objects
+		for (let o of [target[origin], ...target[chi]]) {
+			// return false on loop object
 			if (avoid && avoid === o) return false
-
+			// if object has property
 			if (typeof o[prop] !== 'undefined') {
-				// x && y => if x is true returns y, else returns x
+				// return property or properly bound method // x && y means if x == true return y else return x
 				return o[prop] instanceof Function ? o[prop].bind(!settings.owncontext && receiver || o) : o[prop]
 			}
 		}
@@ -57,15 +65,15 @@ let handler = {
 		return undefined
 	},
 	set: function (target, prop, value) {
-
+		// set chi
 		if (prop === chi) return target[chi] = value
-
-		let origin = target[chi][0]
-
-		if (!settings.setchained) return origin[prop] = value
-		// set youngest
-		for (let o of target[chi]) {
+		// set origin
+		if (!settings.setchained) return target[origin][prop] = value
+		// iterate through origin and chained objects
+		for (let o of [target[origin], ...target[chi]]) {
+			// if object has property
 			if (typeof o[prop] !== 'undefined') {
+				// set it
 				return o[prop] = value
 			}
 		}
@@ -75,19 +83,11 @@ let handler = {
 	}
 }
 
-function Ch (arr) {
-	this[chi] = arr
-}
-
 function chain (...oo) {
 	// validate o
 	if (typeof oo === 'undefined') throw new TypeError('Argument undefined')
-
-	let arr = oo.length ? oo : [{}]
-	// validate ch
-	console.log('//  ch init')
-
-	let ch = new Proxy(new Ch(arr), handler)
+	// create proxied Ch instance
+	let ch = new Proxy(new Ch(oo), handler)
 	// find loops
 	if (chain.findloop(ch)) {
 		if (!settings.allowloops) throw new Error('Loop in chain', chain.findloop(ch))
@@ -139,14 +139,14 @@ Object.defineProperties(chain, {
 	origin: {
 		value: function (ch) {
 
-			return ch[chi][0] || false
+			return chain.is(ch) ? ch[origin] : false
 		}
 	},
-	// returns chain's array of objects
+	// returns array of objects in chain
 	arr: {
 		value: function (ch) {
 
-			return ch[chi] ? [...ch[chi]] : false
+			return chain.is(ch) ? [ch[origin], ...ch[chi]] : false
 		}
 	},
 	// returns array of properties in chain
@@ -159,10 +159,10 @@ Object.defineProperties(chain, {
 
 			let raw = []
 			let own = []
-
-			for (let o of ch[chi]) {
-				// x && y => if x is true returns y, else returns x
-				raw.push(o[prop] instanceof Function ? o[prop].bind(!settings.owncontext && ch[chi][0] || o) : o[prop])
+			// iterate through origin and chained objects
+			for (let o of [ch[origin], ...ch[chi]]) {
+				// memo property or properly bound method // x && y means if x == true return y else return x
+				raw.push(o[prop] instanceof Function ? o[prop].bind(!settings.owncontext && ch[origin] || o) : o[prop])
 				if (callback) own.push(o)
 			}
 
@@ -170,7 +170,7 @@ Object.defineProperties(chain, {
 		}
 	},
 	// MANIPULATION
-	// adds objects to end of chain
+	// adds objects to chain
 	add: {
 		value: function (ch, oo = []) {
 
@@ -185,10 +185,10 @@ Object.defineProperties(chain, {
 				console.warn('Loop in chain', chain.findloop(ch))
 			}
 
-			return [...ch[chi]]
+			return [ch[origin], ...ch[chi]]
 		}
 	},
-	// adds objects to beggining of chain
+	// adds objects to chain, after the origin
 	pre: {
 		value: function (ch, oo = []) {
 
@@ -203,14 +203,15 @@ Object.defineProperties(chain, {
 				console.warn('Loop in chain', chain.findloop(ch))
 			}
 
-			return [...ch[chi]]
+			return [ch[origin], ...ch[chi]]
 		}
 	},
-	// replaces objects from chain
+	// replaces chained objects
 	rep: {
 		value: function (ch, x, o) {
 
 			if (!(ch instanceof Ch)) throw new TypeError(ch+' is not a chain')
+
 			if (typeof x === 'undefined' || typeof o === 'undefined') throw new Error('not enough arguments')
 			// replaces objects in chain
 			while (!(ch[chi].indexOf(x) < 0)) {
@@ -222,10 +223,10 @@ Object.defineProperties(chain, {
 				console.warn('Loop in chain', chain.findloop(ch))
 			}
 
-			return [...ch[chi]]
+			return [ch[origin], ...ch[chi]]
 		}
 	},
-	// removes objects from chain
+	// removes chained objects
 	rem: {
 		value: function (ch, xx = []) {
 
@@ -237,10 +238,10 @@ Object.defineProperties(chain, {
 				return !xx.includes(o)
 			})
 
-			return [...ch[chi]]
+			return [ch[origin], ...ch[chi]]
 		}
 	},
-	// removes last object from chain
+	// removes last chained object
 	pop: {
 		value: function (ch) {
 
@@ -249,7 +250,7 @@ Object.defineProperties(chain, {
 			return ch[chi].pop()
 		}
 	},
-	// removes first object from chain
+	// removes first chained object
 	shift: {
 		value: function (ch) {
 
@@ -258,7 +259,7 @@ Object.defineProperties(chain, {
 			return ch[chi].shift()
 		}
 	},
-	// rotates objects in chain
+	// rotates chained objects
 	rol: {
 		value: function (ch, n = 1) {
 
@@ -274,7 +275,7 @@ Object.defineProperties(chain, {
 				}
 			}
 
-			return [...ch[chi]]
+			return [ch[origin], ...ch[chi]]
 		}
 	}
 
