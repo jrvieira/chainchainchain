@@ -159,16 +159,14 @@ Object.defineProperties(chain, {
 			// validate p
 			if (typeof prop === 'undefined') throw new TypeError('Argument undefined')
 
-			let raw = []
-			let own = []
+			let raw = new Map()
 			// iterate through origin and chained objects
 			for (let o of [ch[origin], ...ch[chi]]) {
 				// memo property or properly bound method // x && y means if x == true return y else return x
-				raw.push(o[prop] instanceof Function ? o[prop].bind(!settings.owncontext && ch[origin] || o) : o[prop])
-				if (callback) own.push(o)
+				raw.set(o, o[prop] instanceof Function ? o[prop].bind(!settings.owncontext && ch[origin] || o) : o[prop])
 			}
 
-			return callback ? callback(raw, own) : raw
+			return callback ? callback(raw) : Array.from(raw.values())
 		}
 	},
 	// MANIPULATION

@@ -60,26 +60,62 @@ juzt.test('{} is not chain', chain.is({}) === false)
 
 ch.o = 'origin'
 juzt.test('chain.origin returns origin object', chain.origin(ch).o === 'origin')
-juzt.test('chain.origin returns false on non chain object', chain.origin({}) === false)
+
+let originerr = false
+try { chain.origin({}) } catch (err) { originerr = err }
+if (juzt.test('chain.origin throws an error when argument is not a chain object', originerr instanceof Error)) {
+	juzt.test('error is a TypeError', originerr.name === 'TypeError')
+}
 
 let marr = chain.arr(ch)
 juzt.test('chain.arr returns array', marr instanceof Array)
 juzt.test('with correct length', marr.length === 4)
 juzt.test('and origin object', marr[0] === chain.origin(ch))
 
-console.log(marr)
-
 let mrawx = chain.raw(ch, 'x')
 let mrawz = chain.raw(ch, 'z')
 let mrawf = chain.raw(ch, 'f')
+juzt.test('chain.raw should return an array when no callback is passed', mrawx instanceof Array)
+juzt.test('ordered', mrawx[2] === 'rep')
+juzt.test('chain.raw should return an array when no callback is passed', mrawz instanceof Array)
+juzt.test('ordered', mrawz[3] === 'chain')
+juzt.test('chain.raw should return an array when no callback is passed', mrawf instanceof Array)
+juzt.test('ordered', typeof mrawf[1] === 'function')
 
-// juzt.test('chain.arr returns array', marr instanceof Array)
-// juzt.test('with correct length', marr.length === 4)
-// juzt.test('and origin object', marr[0] === chain.origin(ch))
+
+juzt.test('property is same', mrawz[3] === zo.z) // cant be same, binding makes it a copy
+let mrawzcallback = chain.raw(ch, 'z', function (raw) {
+	return raw
+})
+let zi = 0
+for (let o of mrawzcallback.keys()) {
+	juzt.test('raw key is right', o === chain.arr(ch)[zi])
+	juzt.test('raw value is right', mrawzcallback.get(o) === chain.raw(ch, 'z')[zi]) // idem
+	zi ++
+}
 
 
-// test settings behaviour
-// test chain with multiple loops (:50 :58)
-// test raw bound methods (:168)
+juzt.test('function is same', mrawf[1] === fo.f) // cant be same, binding makes it a copy
+let mrawfcallback = chain.raw(ch, 'f', function (raw) {
+	return raw
+})
+let fi = 0
+for (let o of mrawfcallback.keys()) {
+	juzt.test('raw key is right', o === chain.arr(ch)[fi])
+	juzt.test('raw value is right', mrawfcallback.get(o) === chain.raw(ch, 'f')[fi]) // idem
+	fi ++
+}
+
+
+// PROBLEM : 
+// when returning a bound function (ex: ch.f)
+// we get a *copy* of the original method
+// and isn't that a problem ?
+
+/*
+test settings behaviour
+test chain with multiple loops (:50 :58)
+test raw bound methods (:168)
+*/
 
 juzt.over()

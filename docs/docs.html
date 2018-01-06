@@ -71,7 +71,7 @@
 								<span class="argument">obj</span> <span class="type">object</span><br>
 								Objects from which to inherit.
 							</div>
-							<span class="blue">returns</span> <span class="type">{ Chain object }</span>
+							<span class="blue">returns</span> <span class="type">chain</span>
 							<div class="alert">
 								<span class="red">Mind</span> that the rightmost objects always become the eldest in chain as this method adds to the top of the chain. If you want to add to the bottom of the chain, use <a href='#pre'></a>.
 							</div>
@@ -87,7 +87,7 @@
 							<div class="alert">
 								<s><span class="argument">.set.uniqueness</span></s>
 								<br>
-								<i>This setting has been deprecated.</i>
+								<i>Deprecated.</i>
 							</div>
 							<div class="alert">
 								<span class="argument">.set.allowloops</span>
@@ -107,7 +107,7 @@
 						<span class="method">add ( <span class="argument">ch</span> , <span class="argument">obj</span> )</span> <span class='desc'>Add objects to the top of the chain.</span>
 						<div class="usage">
 							<div class="arg">
-								<span class="argument">ch</span> <span class="type">{ Chain object }</span><br>
+								<span class="argument">ch</span> <span class="type">chain</span><br>
 								Target chain.
 							</div>
 							<div class="arg">
@@ -127,7 +127,7 @@
 						<span class="method">pre ( <span class="argument">ch</span> , <span class="argument">obj</span> )</span> <span class='desc'>Add objects to the bottom of the chain.</span>
 						<div class="usage">
 							<div class="arg">
-								<span class="argument">ch</span> <span class="type">{ Chain object }</span><br>
+								<span class="argument">ch</span> <span class="type">chain</span><br>
 								Target chain.
 							</div>
 							<div class="arg">
@@ -147,7 +147,7 @@
 						<span class="method">rep ( <span class="argument">ch</span> , <span class="argument">x</span>, <span class="argument">o</span> )</span> <span class='desc'>Replace object in chain.</span>
 						<div class="usage">
 							<div class="arg">
-								<span class="argument">ch</span> <span class="type">{ Chain object }</span><br>
+								<span class="argument">ch</span> <span class="type">chain</span><br>
 								Target chain.
 							</div>
 							<div class="arg">
@@ -171,7 +171,7 @@
 						<span class="method">rem ( <span class="argument">ch</span> , <span class="argument">x</span> )</span> <span class='desc'>Remove objects from chain.</span>
 						<div class="usage">
 							<div class="arg">
-								<span class="argument">ch</span> <span class="type">{ Chain object }</span><br>
+								<span class="argument">ch</span> <span class="type">chain</span><br>
 								Target chain.
 							</div>
 							<div class="arg">
@@ -191,7 +191,7 @@
 						<span class="method">pop ( <span class="argument">ch</span> )</span> <span class='desc'>Remove the eldest chained object.</span>
 						<div class="usage">
 							<div class="arg">
-								<span class="argument">ch</span> <span class="type">{ Chain object }</span><br>
+								<span class="argument">ch</span> <span class="type">chain</span><br>
 								Target chain.
 							</div>
 							<span class="blue">returns</span> <span class="type">object</span>
@@ -204,7 +204,7 @@
 						<span class="method">shift ( <span class="argument">ch</span> )</span> <span class='desc'>Remove the youngest chained object.</span>
 						<div class="usage">
 							<div class="arg">
-								<span class="argument">ch</span> <span class="type">{ Chain object }</span><br>
+								<span class="argument">ch</span> <span class="type">chain</span><br>
 								Target chain.
 							</div>
 							<span class="blue">returns</span> <span class="type">object</span>
@@ -217,7 +217,7 @@
 						<span class="method">rol ( <span class="argument">ch</span> , <span class="argument">n</span> )</span> <span class='desc'>Rotate chained objects.</span>
 						<div class="usage">
 							<div class="arg">
-								<span class="argument">ch</span> <span class="type">{ Chain object }</span><br>
+								<span class="argument">ch</span> <span class="type">chain</span><br>
 								Target chain.
 							</div>
 							<div class="arg">
@@ -252,16 +252,13 @@
 						</div>
 					</div>
 					<div id="origin" class="method">
-						<span class="method">origin ( <span class="argument">z</span> )</span> <span class='desc'>Get origin object.</span>
+						<span class="method">origin ( <span class="argument">ch</span> )</span> <span class='desc'>Get origin object.</span>
 						<div class="usage">
 							<div class="arg">
-								<span class="argument">z</span> <span class="type">any</span><br>
+								<span class="argument">ch</span> <span class="type">chain</span><br>
 								Target chain.
 							</div>
-							<span class="blue">returns</span> <span class="type">object/boolean</span>
-							<div class="alert">
-								Returns <span class="value">false</span> if <span class="argument">z</span> is not a chain object.
-							</div>
+							<span class="blue">returns</span> <span class="type">object</span>
 							<div class="alert">
 								<i>The origin object is always younger than any chained object.</i>
 							</div>
@@ -271,7 +268,7 @@
 						<span class="method">arr ( <span class="argument">ch</span> )</span> <span class='desc'>Get all objects in chain.</span>
 						<div class="usage">
 							<div class="arg">
-								<span class="argument">ch</span> <span class="type">{ Chain object }</span><br>
+								<span class="argument">ch</span> <span class="type">chain</span><br>
 								Target chain.
 							</div>
 							<span class="blue">returns</span> <span class="type">array</span>
@@ -281,7 +278,7 @@
 						<span class="method">raw ( <span class="argument">ch</span> , <span class="argument">prop</span> [, <span class="argument">callback]</span> )</span> <span class='desc'>Get each object's selected property from chain.</span>
 						<div class="usage">
 							<div class="arg">
-								<span class="argument">ch</span> <span class="type">{ Chain object }</span><br>
+								<span class="argument">ch</span> <span class="type">chain</span><br>
 								Target chain.
 							</div>
 							<div class="arg">
@@ -290,14 +287,14 @@
 							</div>
 							<div class="arg">
 								<span class="argument">callback</span> <span class="type">function</span><br>
-								Callback function that takes two arguments: an array of returned properties and an array of their owner objects.
+								Callback function that takes a map of objects in chain to their returned properties or methods as an argument.
 							</div>
 							<span class="blue">returns</span> <span class="type">array/any</span>
 							<div class="alert">
 								<span class="red">Beware</span> of recursion when creating trees by chaining chain objects.
 							</div>
 							<div class="alert">
-								Returned methods are binded to the origin object's context by default. See <a href="#default"></a>.
+								Returned methods are bound to the origin object's context by default. See <a href="#default"></a>.
 								<br>
 								<br>
 								<i>The origin object is always younger than any chained object.</i>
