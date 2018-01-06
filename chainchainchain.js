@@ -139,7 +139,9 @@ Object.defineProperties(chain, {
 	origin: {
 		value: function (ch) {
 
-			return chain.is(ch) ? ch[origin] : false
+			if (!(ch instanceof Ch)) throw new TypeError(ch+' is not a chain')
+
+			return ch[origin]
 		}
 	},
 	// returns array of objects in chain
