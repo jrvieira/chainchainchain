@@ -13,7 +13,10 @@
     "type": "git",
     "url": "git+https://github.com/jrvieira/chainchainchain.git"
   },
-  "keywords": [],
+  "keywords": [
+    "inheritance",
+    "chain"
+  ],
   "author": "jrvieira",
   "license": "MIT",
   "bugs": {
