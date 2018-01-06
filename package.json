@@ -2,9 +2,13 @@
   "name": "chainchainchain",
   "version": "2.1.0",
   "description": "Liberal inheritance JavaScript micro library for OOP.",
-  "main": "chainchainchain.js",
+  "main": "lib/chainchainchain.js",
+  "files": [
+    "lib/chainchainchain.js"
+  ],
   "directories": {
-    "doc": "docs"
+    "lib": "lib",
+    "test": "test"
   },
   "scripts": {
     "test": "node test/test.js"
