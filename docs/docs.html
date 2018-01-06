@@ -73,7 +73,7 @@
 							</div>
 							<span class="blue">returns</span> <span class="type">{ Chain object }</span>
 							<div class="alert">
-								<span class="red">Mind</span> that the rightmost objects always become the oldest in chain as this method adds to the top of the chain. If you want to add to the bottom of the chain, use <a href='#pre'></a>.
+								<span class="red">Mind</span> that the rightmost objects always become the eldest in chain as this method adds to the top of the chain. If you want to add to the bottom of the chain, use <a href='#pre'></a>.
 							</div>
 							<div class="alert">
 								<span class="argument">.set.owncontext</span>
@@ -82,7 +82,7 @@
 								Bind methods to their corresponding object's context instead of the origin object. Defaults to <span class="value">false</span>.
 								<br>
 								<br>
-								<i>The origin object is the youngest one, always at the bottom of the chain.</i>
+								<i>The origin object is always younger than any chained object.</i>
 							</div>
 							<div class="alert">
 								<s><span class="argument">.set.uniqueness</span></s>
@@ -168,7 +168,7 @@
 						</div>
 					</div>
 					<div id="rem" class="method">
-						<span class="method">rem ( <span class="argument">ch</span> , <span class="argument">x</span> )</span> <span class='desc'>Remove objects from the chain.</span>
+						<span class="method">rem ( <span class="argument">ch</span> , <span class="argument">x</span> )</span> <span class='desc'>Remove objects from chain.</span>
 						<div class="usage">
 							<div class="arg">
 								<span class="argument">ch</span> <span class="type">{ Chain object }</span><br>
@@ -188,7 +188,7 @@
 						</div>
 					</div>
 					<div id="pop" class="method">
-						<span class="method">pop ( <span class="argument">ch</span> )</span> <span class='desc'>Remove the top object from the chain.</span>
+						<span class="method">pop ( <span class="argument">ch</span> )</span> <span class='desc'>Remove the eldest chained object.</span>
 						<div class="usage">
 							<div class="arg">
 								<span class="argument">ch</span> <span class="type">{ Chain object }</span><br>
@@ -201,7 +201,7 @@
 						</div>
 					</div>
 					<div id="shift" class="method">
-						<span class="method">shift ( <span class="argument">ch</span> )</span> <span class='desc'>Remove the bottom object from the chain.</span>
+						<span class="method">shift ( <span class="argument">ch</span> )</span> <span class='desc'>Remove the youngest chained object.</span>
 						<div class="usage">
 							<div class="arg">
 								<span class="argument">ch</span> <span class="type">{ Chain object }</span><br>
@@ -214,7 +214,7 @@
 						</div>
 					</div>
 					<div id="rol" class="method">
-						<span class="method">rol ( <span class="argument">ch</span> , <span class="argument">n</span> )</span> <span class='desc'>Rotate the entire chain.</span>
+						<span class="method">rol ( <span class="argument">ch</span> , <span class="argument">n</span> )</span> <span class='desc'>Rotate chained objects.</span>
 						<div class="usage">
 							<div class="arg">
 								<span class="argument">ch</span> <span class="type">{ Chain object }</span><br>
@@ -226,7 +226,7 @@
 							</div>
 							<span class="blue">returns</span> <span class="type">array</span>
 							<div class="alert">
-								If <span class="code">n > 0</span> youngest objects rotate to the eldest position. <br> If <span class="code">n < 0</span> eldest objects rotate to the youngest position.
+								If <span class="code">n > 0</span> youngest chained objects rotate to the eldest position. <br> If <span class="code">n < 0</span> eldest objects rotate to the youngest chained position.
 							</div>
 							<div class="alert">
 								Returns an array of objects in chain.
@@ -252,15 +252,18 @@
 						</div>
 					</div>
 					<div id="origin" class="method">
-						<span class="method">origin ( <span class="argument">ch</span> )</span> <span class='desc'>Get origin object.</span>
+						<span class="method">origin ( <span class="argument">z</span> )</span> <span class='desc'>Get origin object.</span>
 						<div class="usage">
 							<div class="arg">
-								<span class="argument">ch</span> <span class="type">{ Chain object }</span><br>
+								<span class="argument">z</span> <span class="type">any</span><br>
 								Target chain.
 							</div>
-							<span class="blue">returns</span> <span class="type">object</span>
+							<span class="blue">returns</span> <span class="type">object/boolean</span>
 							<div class="alert">
-								<i>The origin object is the youngest one, at the bottom of the chain.</i>
+								Returns <span class="value">false</span> if <span class="argument">z</span> is not a chain object.
+							</div>
+							<div class="alert">
+								<i>The origin object is always younger than any chained object.</i>
 							</div>
 						</div>
 					</div>
@@ -297,7 +300,7 @@
 								Returned methods are binded to the origin object's context by default. See <a href="#default"></a>.
 								<br>
 								<br>
-								<i>The origin object is the youngest one, at the bottom of the chain.</i>
+								<i>The origin object is always younger than any chained object.</i>
 							</div>
 						</div>
 					</div>
