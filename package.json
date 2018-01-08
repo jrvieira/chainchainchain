@@ -27,7 +27,7 @@
     "url": "https://github.com/jrvieira/chainchainchain/issues"
   },
   "homepage": "http://chainchainchain.jrvieira.com",
-  "dependencies": {
+  "devDependencies": {
     "juzt": "^1.0.6"
   }
 }
