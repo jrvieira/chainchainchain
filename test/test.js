@@ -1,7 +1,7 @@
 // import juzt from 'juzt'
 const juzt = require('juzt')
 // import chain from 'chainchainchain'
-const chain = require('./../chainchainchain')
+const chain = require('../lib/chainchainchain')
 
 
 let xo = { x: 'x' }

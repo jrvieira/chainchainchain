@@ -28,6 +28,6 @@
   },
   "homepage": "http://chainchainchain.jrvieira.com",
   "devDependencies": {
-    "juzt": "^1.0.6"
+    "juzt": "^1.0.9"
   }
 }
