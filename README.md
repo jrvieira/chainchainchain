@@ -35,4 +35,4 @@ ch.f()
 [jrvieira.github.io/chainchainchain](http://jrvieira.github.io/chainchainchain)
 
 
-###### Licensed under the MIT license.
+###### Licensed under MIT
