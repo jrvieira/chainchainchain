@@ -102,6 +102,4 @@ chain.set.owncontext = true
 juzt.test('bound alex.hi', alex.hi() === 'Hi, my name is undefined and I am a being')
 juzt.test('bound joe.hi', joe.hi() === 'Hi, my name is undefined and I am a being')
 
-juzt.test('', true)
-
 juzt.over()

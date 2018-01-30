@@ -99,15 +99,15 @@ let mrawfcallback = chain.raw(ch, 'f', function (raw) {
 	return raw
 })
 let fi = 0
-for (let o of mrawfcallback.keys()) {
-	juzt.test('raw value is right', mrawfcallback[fi] === chain.raw(ch, 'f')[fi]) // idem
+for (let p of mrawfcallback) {
+	juzt.test('raw value is right', p === chain.raw(ch, 'f')[fi]) // idem
 	fi ++
 }
 
-/*
-test settings behaviour
-test chain with multiple loops (:50 :58)
-test raw bound methods (:168)
-*/
+juzt.test('ordered', ch.f() === 'repundefinedchain')
+
+chain.set.owncontext = true
+
+juzt.test('ordered', isNaN(ch.f()))
 
 juzt.over()
