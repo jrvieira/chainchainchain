@@ -4,7 +4,8 @@
   "description": "Liberal inheritance JavaScript micro library for OOP.",
   "main": "lib/chainchainchain.js",
   "files": [
-    "lib/chainchainchain.js"
+    "lib/chainchainchain.js",
+    "test/test.js"
   ],
   "directories": {
     "lib": "lib",
