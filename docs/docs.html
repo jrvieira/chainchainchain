@@ -40,15 +40,15 @@
 			<div id="fade"></div>
 		</div>
 		<div class="part"></div>
-		<div id="intro" class="part">
+		<div id="intro" class="part slim">
 			<div class="center">
 				<h1>Documentation</h1>
 				<br>
 				<p>
-					This non-linear inheritance micro library allows for independent chain objects to be created. You can return properties and methods of objects in chain directly through your chain objects and manipulate and evaluate your chain objects via the methods described in this document. You can import this module any way you like but for the purpose of this document let's assume the following:
+					<span class="code">const <b><span id="defaultmethodname">chain</span></b> = require('chainchainchain')</span>
 				</p>
 				<p>
-					<span class="code">const <b><span id="defaultmethodname">chain</span></b> = require('chainchainchain')</span>
+					Chain objects are expected to evaluate like any other object. However, chain manipulation should be limited to the following methods.
 				</p>
 			</div>
 		</div>
@@ -76,7 +76,7 @@
 								<span class="red">Mind</span> that the rightmost objects always become the eldest in chain as this method adds to the top of the chain. If you want to add to the bottom of the chain, use <a href='#pre'></a>.
 							</div>
 							<div class="alert">
-								<span class="argument">.set.owncontext</span>
+								<span class="argument"><span class="defaultmethodname"></span>.set.owncontext</span>
 								<span class="type">boolean</span>
 								<br>
 								Bind methods to their corresponding object's context instead of the origin object. Defaults to <span class="value">false</span>.
@@ -85,21 +85,21 @@
 								<i>The origin object is always younger than any chained object.</i>
 							</div>
 							<div class="alert">
-								<s><span class="argument">.set.uniqueness</span></s>
+								<s><span class="argument"><span class="defaultmethodname"></span>.set.uniqueness</span></s>
 								<br>
 								<i>Deprecated.</i>
 							</div>
 							<div class="alert">
-								<span class="argument">.set.allowloops</span>
+								<span class="argument"><span class="defaultmethodname"></span>.set.allowloops</span>
 								<span class="type">boolean</span>
 								<br>
 								Allow for inheritance loops when chaining chain objects. Defaults to <span class="value">false</span>.
 							</div>
 							<div class="alert">
-								<span class="argument">.set.setchained</span>
+								<span class="argument"><span class="defaultmethodname"></span>.set.setchained</span>
 								<span class="type">boolean</span>
 								<br>
-								Set values on the youngest chained object with the existing property instead of the origin. Defaults to <span class="value">false</span>.
+								Allow values to be assigned on the youngest chained object with that property key instead of the origin object. Defaults to <span class="value">false</span>.
 							</div>
 						</div>
 					</div>
@@ -287,9 +287,9 @@
 							</div>
 							<div class="arg">
 								<span class="argument">callback</span> <span class="type">function</span><br>
-								Callback function that takes a map of objects in chain to their returned properties or methods as an argument.
+								Callback function that takes an array of properties in chain as an argument.
 							</div>
-							<span class="blue">returns</span> <span class="type">array/any</span>
+							<span class="blue">returns</span> <span class="type">array</span>
 							<div class="alert">
 								<span class="red">Beware</span> of recursion when creating trees by chaining chain objects.
 							</div>

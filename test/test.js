@@ -88,9 +88,8 @@ let mrawzcallback = chain.raw(ch, 'z', function (raw) {
 	return raw
 })
 let zi = 0
-for (let o of mrawzcallback.keys()) {
-	juzt.test('raw key is right', o === chain.arr(ch)[zi])
-	juzt.test('raw value is right', mrawzcallback.get(o) === chain.raw(ch, 'z')[zi]) // idem
+for (let p of mrawzcallback) {
+	juzt.test('raw value is right', mrawzcallback[zi] === chain.raw(ch, 'z')[zi]) // idem
 	zi ++
 }
 
@@ -101,16 +100,9 @@ let mrawfcallback = chain.raw(ch, 'f', function (raw) {
 })
 let fi = 0
 for (let o of mrawfcallback.keys()) {
-	juzt.test('raw key is right', o === chain.arr(ch)[fi])
-	juzt.test('raw value is right', mrawfcallback.get(o) === chain.raw(ch, 'f')[fi]) // idem
+	juzt.test('raw value is right', mrawfcallback[fi] === chain.raw(ch, 'f')[fi]) // idem
 	fi ++
 }
-
-
-// PROBLEM : 
-// when returning a bound function (ex: ch.f)
-// we get a *copy* of the original method
-// and isn't that a problem ?
 
 /*
 test settings behaviour
