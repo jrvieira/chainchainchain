@@ -43,16 +43,13 @@
 		<div id="intro" class="part">
 			<div class="center">
 
-				<h1>Basic evaluation</h1>
+				<h1>Demo</h1>
 				<br>
 
 				<p>
-					Importing the module:<br>
-
-					<br>
 
 					<span class="code">
-					const chain = require('chainchainchain')<br>
+					const <b>chain</b> = require('chainchainchain')<br>
 					</span>
 
 					<br>
@@ -62,27 +59,40 @@
 					<br>
 
 					<span class="code">
-					let being = { is: 'being' }, human = { is: 'human' }, robot = { is: 'robot' }, cop = { is: 'cop' }, doc = { is: 'doc' }<br>
+					let being = { is: 'being' } <br>
+					<br>
+					let human = { is: 'human' } <br>
+					let robot = { is: 'robot' } <br>
+					<br>
+					let cop = { is: 'cop' } <br>
+					let doc = { is: 'doc' } <br>
 					</span>
 
 					<br>
 
-					We create the object <span class="fancy">alex</span> so we can then chain it to <span class="fancy">cop</span>, <span class="fancy">robot</span> and <span class="fancy">being</span>.<br>
+				</p>
+
+				<h1>Basic evaluation</h1>
+				<br>
+
+				<p>
+
+					We create a chain object <span class="fancy">alex</span> with <span class="fancy">cop</span>and <span class="fancy">robot</span> as the chained objects.<br>
 
 					<br>
 
 					<span class="code">
-					let alex = { name: 'alex' }<br>
+					let alex = chain(cop, robot)<br>
 					</span>
 
 					<br>
 
-					Now we create a chain. We can make it a separate object however a more useful and elegant way is to assign it as a property of <span class="fancy">alex</span>.<br>
+					We can give the chain object <span class="fancy">alex</span> its own properties.<br>
 
 					<br>
 
 					<span class="code">
-					alex.ch = chain(alex, cop, robot) <span class="returnvalue">Ch {}</span>
+					alex.name = 'alex' <br>
 					</span>
 
 					<br>
@@ -92,29 +102,29 @@
 					<br>
 
 					<span class="code">
-					chain.is(alex.ch) <span class="returnvalue">true</span>
+					chain.is(alex) <span class="returnvalue">true</span>
 					</span>
 					<span class="code">
-					chain.origin(alex.ch) <span class="returnvalue">{ name: 'alex', ch: Ch {} }</span>
+					chain.origin(alex) <span class="returnvalue">{ name: 'alex' }</span>
 					</span>
 					<span class="code">
-					chain.arr(alex.ch) <span class="returnvalue">[ { name: 'alex', ch: Ch {} }, { is: 'cop' }, { is: 'robot' } ]</span>
+					chain.arr(alex) <span class="returnvalue">[ { name: 'alex' }, { is: 'cop' }, { is: 'robot' } ]</span>
 					</span>
 
 					<br>
 
-					As expected we confirm that we have a chain, that its origin is our object <span class="fancy">alex</span> and that the whole chain is composed by <span class="fancy">alex</span>, <span class="fancy">cop</span> and <span class="fancy">robot</span>.<br>
+					As expected we confirm that we have a chain <span class="fancy">alex</span>, that its origin has a property <span class="code">name</span> and that the whole chain is composed by <span class="fancy">alex</span>'s origin, <span class="fancy">cop</span> and <span class="fancy">robot</span>.<br>
 
 					<img src="img/demo1.png">
 
 					<br>
 
-					If we add being to the chain we get: <br>
+					If we add being to the chain we get:<br>
 
 					<br>
 
 					<span class="code">
-					chain.add(alex.ch, being) <span class="returnvalue">[ { name: 'alex', ch: Ch {} },
+					chain.add(alex, being) <span class="returnvalue">[ { name: 'alex' },
 					  { is: 'cop' },
 					  { is: 'robot' },
 					  { is: 'being' } ]</span>
@@ -129,20 +139,20 @@
 					<br>
 
 					<span class="code">
-					alex.ch.name <span class="returnvalue">'alex'</span>
+					alex.name <span class="returnvalue">'alex'</span>
 					</span>
 					<span class="code">
-					alex.ch.is <span class="returnvalue">'cop'</span>
+					alex.is <span class="returnvalue">'cop'</span>
 					</span>
 
 					<br>
 
-					We got the <span class="code">name</span> property from <span class="fancy">alex</span> and the <span class="code">is</span> property from <span class="fancy">cop</span> as it's the youngest chained object with that property. We can get all the <span class="code">is</span> properties of this chain in one method call:<br>
+					We got the <span class="code">name</span> property from <span class="fancy">alex</span>'s  origin and the <span class="code">is</span> property from <span class="fancy">cop</span> as it's the youngest object in the chain with that property. We can get all the <span class="code">is</span> properties of this chain in one method call:<br>
 
 					<br>
 
 					<span class="code">
-					chain.raw(alex.ch, 'is') <span class="returnvalue">[ undefined, 'cop', 'robot', 'being' ]</span>
+					chain.raw(alex, 'is') <span class="returnvalue">[ undefined, 'cop', 'robot', 'being' ]</span>
 					</span>
 
 					<br>
@@ -154,66 +164,63 @@
 
 				<p>
 
-				Methods work as expected:<br>
+					Methods work as expected:<br>
 
-				<br>
+					<br>
 
-				<span class="code">
-				being.hi = function () { <br>
-				&nbsp; return 'Hi, my name is ' + this.name + ' and I am a ' + this.is; <br>
-				} <br>
-				</span>
+					<span class="code">
+					being.hi = function () { <br>
+					&nbsp; return 'Hi, my name is ' + this.name + ' and I am a ' + this.is <br>
+					} <br>
+					</span>
 
-				<span class="code">
-				alex.ch.hi() <span class="returnvalue">'Hi, my name is alex and I am a cop'</span>
-				</span>
+					<span class="code">
+					alex.hi() <span class="returnvalue">'Hi, my name is alex and I am a cop'</span>
+					</span>
 
-				<br>
+					<br>
 
-				The chain inherits the method <span class="code">hi</span> from <span class="fancy">being</span> and apllies it to itself by default (you can change this setting). The chain object runs the function in its own context, returning <span class="code">this.name</span> from <span class="fancy">alex</span> and <span class="code">this.is</span> from <span class="fancy">cop</span>. <br>
+					The chain inherits the method <span class="code">hi</span> from <span class="fancy">being</span> and apllies it to itself by default while <span class="code">chain.set.owncontext === false</span>. The function is removed from its own context and binds to the chain instead, returning <span class="code">this.name</span> from <span class="fancy">alex</span>'s origin and <span class="code">this.is</span> from <span class="fancy">cop</span>. <br>
 
-				<br>
+					<br>
 
 				</p>
-
 
 				<h1>Diamond inheritance</h1>
 				<br>
 
 				<p>
 
-				Chains are independent from each other: <br>
+					Chains are independent from each other: <br>
 
-				<br>
+					<br>
 
-				<span class="code">
-				let joe = { name: 'joe' } <br>
-				</span>
-				<span class="code">
-				joe.ch = chain(joe, cop, human, being) <span class="returnvalue">Ch {}</span>
-				</span>
+					<span class="code">
+					let joe = chain(cop, human, being) <span class="returnvalue">Ch { … }</span> <br>
+					joe.name = 'joe'
+					</span>
 
-				<img src="img/demo3.png">
+					<img src="img/demo3.png">
 
-				<br>
+					<br>
 
-				<span class="code">
-				joe.ch.hi() <span class="returnvalue">'Hi, my name is joe and I am a cop'</span>
-				</span>
-				<span class="code">
-				alex.ch.hi() <span class="returnvalue">'Hi, my name is alex and I am a cop'</span>
-				</span>
-				<span class="code">
-				delete cop.is <span class="returnvalue">true</span>
-				</span>
-				<span class="code">
-				joe.ch.hi() <span class="returnvalue">'Hi, my name is joe and I am a human'</span>
-				</span>
-				<span class="code">
-				alex.ch.hi() <span class="returnvalue">'Hi, my name is alex and I am a robot'</span>
-				</span>
+					<span class="code">
+					joe.hi() <span class="returnvalue">'Hi, my name is joe and I am a cop'</span>
+					</span>
+					<span class="code">
+					alex.hi() <span class="returnvalue">'Hi, my name is alex and I am a cop'</span>
+					</span>
+					<span class="code">
+					delete cop.is <span class="returnvalue">true</span>
+					</span>
+					<span class="code">
+					joe.hi() <span class="returnvalue">'Hi, my name is joe and I am a human'</span>
+					</span>
+					<span class="code">
+					alex.hi() <span class="returnvalue">'Hi, my name is alex and I am a robot'</span>
+					</span>
 
-				<br>
+					<br>
 
 				</p>
 
@@ -221,89 +228,85 @@
 				<br>
 
 				<p>
-				You can chain chain objects creating complex inheritance trees. Let's replace <span class="fancy">cop</span> by a new chain containing <span class="fancy">cop</span> and a new <span class="fancy">skilled</span> object.<br>
+					You can chain chain objects creating complex inheritance trees. Let's replace <span class="fancy">cop</span> by a new chain containing <span class="fancy">cop</span> and a new <span class="fancy">skilled</span> object.<br>
 
-				<br>
+					<br>
 
-				<span class="code">
+					<span class="code">
 
-				let skilled = { <br>
-				&nbsp; is: 'skilled', <br>
-				&nbsp; skill: 'shooting' <br>
-				} <br>
-				cop.is = 'cop' <span class="returnvalue">'cop'</span>
-				let branch = chain(cop, skilled) <br>
+					let skilled = { <br>
+					&nbsp; is: 'skilled', <br>
+					&nbsp; skill: 'shooting' <br>
+					} <br>
+					cop.is = 'cop' <span class="returnvalue">'cop'</span>
+					let branch = chain(cop, skilled) <br>
 
-				chain.rep(alex.ch, cop, branch) <span class="returnvalue">[ { name: 'alex', ch: Ch {} },
-				  Ch {},
-				  { is: 'robot' },
-				  { is: 'being', hi: [Function] } ]</span>
-				chain.rep(joe.ch, cop, branch) <span class="returnvalue">[ { name: 'joe', ch: Ch {} },
-				  Ch {},
-				  { is: 'human' },
-				  { is: 'being', hi: [Function] } ]</span>
+					chain.rep(alex, cop, branch) <span class="returnvalue">[ { name: 'alex' },
+					  Ch { … },
+					  { is: 'robot' },
+					  { is: 'being', hi: [Function] } ]</span>
+					chain.rep(joe, cop, branch) <span class="returnvalue">[ { name: 'joe', ch: Ch { … } },
+					  Ch { … },
+					  { is: 'human' },
+					  { is: 'being', hi: [Function] } ]</span>
 
-				</span>
+					</span>
 
 
-				<img src="img/demo4.png">
+					<img src="img/demo4.png">
 
-				<br>
+					<br>
 
-				<br>
+					<br>
 
-				<span class="fancy">alex.ch</span> keeps it's length of 4 objects: <br>
+					<span class="fancy">alex</span> keeps it's length of 4 objects: <br>
 
-				<img src="img/demo5.png">
+					<img src="img/demo5.png">
 
-				<br>
+					<br>
 
-				<span class="code">
-				chain.arr(alex.ch).length <span class="returnvalue">4</span>
-				</span>
+					<span class="code">
+					chain.arr(alex).length <span class="returnvalue">4</span>
+					</span>
 
-				<br>
+					<br>
 
-				But we now have access to the <span class="fancy">skilled</span> object's properties.<br>
+					But we now have access to the <span class="fancy">skilled</span> object's properties.<br>
 
-				<img src="img/demo6.png">
+					<img src="img/demo6.png">
 
-				<br>
+					<br>
 
-				<span class="code">
-				alex.ch.skill <span class="returnvalue">'shooting'</span>
-				<br>
+					<span class="code">
+					alex.skill <span class="returnvalue">'shooting'</span>
+					alex.is <span class="returnvalue">'cop'</span>
+					chain.raw(alex, 'is') <span class="returnvalue">[ undefined, 'cop', 'robot', 'being' ]</span>
+					delete cop.is <span class="returnvalue">true</span>
+					chain.raw(alex, 'is') <span class="returnvalue">[ undefined, 'skilled', 'robot', 'being' ]</span>
+					alex.is <span class="returnvalue">'skilled'</span>
+					</span>
 
-				<span class="code">
-				alex.ch.is <span class="returnvalue">'cop'</span>
-				chain.raw(alex.ch, 'is') <span class="returnvalue">[ undefined, 'cop', 'robot', 'being' ]</span>
-				delete cop.is <span class="returnvalue">true</span>
-				chain.raw(alex.ch, 'is') <span class="returnvalue">[ undefined, 'skilled', 'robot', 'being' ]</span>
-				alex.ch.is <span class="returnvalue">'skilled'</span>
-				</span>
+					<br>
 
-				<br>
+					The same for <span class="fancy">joe</span>: <br>
 
-				The same for <span class="fancy">joe.ch</span>: <br>
+					<img src="img/demo7.png">
 
-				<img src="img/demo7.png">
+					<br>
 
-				<br>
+					<span class="code">
+					chain.raw(joe, 'is') <span class="returnvalue">[ undefined, 'skilled', 'human', 'being' ]</span>
+					cop.is = 'cop' <span class="returnvalue">'cop'</span>
+					chain.raw(joe, 'is') <span class="returnvalue">[ undefined, 'cop', 'human', 'being' ]</span>
+					</span>
 
-				<span class="code">
-				chain.raw(joe.ch, 'is') <span class="returnvalue">[ undefined, 'skilled', 'human', 'being' ]</span>
-				cop.is = 'cop' <span class="returnvalue">'cop'</span>
-				chain.raw(joe.ch, 'is') <span class="returnvalue">[ undefined, 'cop', 'human', 'being' ]</span>
-				</span>
+					<br>
 
-				<br>
+					<span class="code">
+					chain.raw(joe, 'is', (props => console.log(props)) <span class="returnvalue">[ undefined, 'cop', 'human', 'being' ]</span>
+					</span>
 
-				<span class="code">
-				chain.raw(joe.ch, 'is', (props, objs) => console.log(props)) <span class="returnvalue">[ undefined, 'cop', 'human', 'being' ]</span>
-				chain.raw(joe.ch, 'is', (props, objs) => console.log(objs)) <span class="returnvalue">[ { name: 'joe', ch: Ch {} }, Ch {}, { is: 'human' }, { is: 'being', hi: [Function] } ]</span>
-				</span>
-
-				<br>
+					<br>
 
 				</p>
 
@@ -311,43 +314,41 @@
 				<br>
 
 				<p>
-				We can change the way the chain behaves through the <span class="code">chain.set</span> object: <br>
+					We can change the way the chain behaves through the <span class="code">chain.set</span> object: <br>
 
-				<br>
+					<br>
 
-				<span class="code">
-				chain.set.owncontext = true <span class="returnvalue">true</span>
-				</span>
-				Binds methods to their corresponding object's context instead of the origin object. <br>
-				<br>
-				<span class="code">
-				<s>chain.set.uniqueness = true<br></s>
-				</span>
-				<i>This setting has been deprecated.</i><br>
-				<br>
-				<span class="code">
-				chain.set.allowloops = true <span class="returnvalue">true</span>
-				</span>
-				Allows for inheritance loops when chaining chain objects.  <br>
-				<br>
-				<span class="code">
-				chain.set.setchained = true <span class="returnvalue">true</span>
-				</span>
-				Sets values on the youngest chained object with the existing property instead of the origin. <br>
-				<br>
+					<span class="code">
+					chain.set.owncontext = true <span class="returnvalue">true</span>
+					</span>
+					Bind methods to their corresponding object's context instead of the origin object. <br>
+					<br>
+					<span class="code">
+					<s>chain.set.uniqueness = true<br></s>
+					</span>
+					<i>Deprecated.</i><br>
+					<br>
+					<span class="code">
+					chain.set.allowloops = true <span class="returnvalue">true</span>
+					</span>
+					Allow for inheritance loops when chaining chain objects. <br>
+					<br>
+					<span class="code">
+					chain.set.setchained = true <span class="returnvalue">true</span>
+					</span>
+					Allow values to be assigned on the youngest object in chain with the declared property key. <br>
+					<br>
 
-				All values of the <span class="code">set</span> object default to <span class="value">false</span> and are converted to a boolean on attribution. <br>
+					All values of the <span class="code">set</span> object default to <span class="value">false</span> and are converted to a boolean on attribution. <br>
 
-				<br>
-
+					<br>
 
 				</p>
-
-
 
 				<p>
-				All of this is independent from the prototypical inheritance scheme, so you can use both tools at the same time to create truly intricate functionalities in your programs at a low cost.
+					All of this is independent from the prototypical inheritance scheme, so you can use both tools at the same time to create truly intricate functionalities in your programs with low overhead.
 				</p>
+
 			</div>
 		</div>
 		<div id="about" class="part">

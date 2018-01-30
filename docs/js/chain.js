@@ -39,7 +39,7 @@ $(function(){
 		
 		$('.col').each(function(){
 			var $col = $('<div class="index col"></div>');
-			$($col).append($('<h3></h3>').text($(this).attr('id')+' methods:'));
+			$($col).append($('<h3></h3>').html($(this).attr('id')+' methods:'+'<br><br>'));
 			$(this).find('div.method').each(function(){
 				let methodname = ($(this).attr('id') === 'default') ? defaultmethodname : defaultmethodname+'.'+$(this).attr('id');
 				$($col).append($('<p></p>').html('<div class="link"><a href="#'+$(this).attr('id')+'">'+methodname+' ()</a></div> '+$(this).find('span.desc').text()));

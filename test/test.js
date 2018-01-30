@@ -88,9 +88,8 @@ let mrawzcallback = chain.raw(ch, 'z', function (raw) {
 	return raw
 })
 let zi = 0
-for (let o of mrawzcallback.keys()) {
-	juzt.test('raw key is right', o === chain.arr(ch)[zi])
-	juzt.test('raw value is right', mrawzcallback.get(o) === chain.raw(ch, 'z')[zi]) // idem
+for (let p of mrawzcallback) {
+	juzt.test('raw value is right', mrawzcallback[zi] === chain.raw(ch, 'z')[zi]) // idem
 	zi ++
 }
 
@@ -100,22 +99,15 @@ let mrawfcallback = chain.raw(ch, 'f', function (raw) {
 	return raw
 })
 let fi = 0
-for (let o of mrawfcallback.keys()) {
-	juzt.test('raw key is right', o === chain.arr(ch)[fi])
-	juzt.test('raw value is right', mrawfcallback.get(o) === chain.raw(ch, 'f')[fi]) // idem
+for (let p of mrawfcallback) {
+	juzt.test('raw value is right', p === chain.raw(ch, 'f')[fi]) // idem
 	fi ++
 }
 
+juzt.test('ordered', ch.f() === 'repundefinedchain')
 
-// PROBLEM : 
-// when returning a bound function (ex: ch.f)
-// we get a *copy* of the original method
-// and isn't that a problem ?
+chain.set.owncontext = true
 
-/*
-test settings behaviour
-test chain with multiple loops (:50 :58)
-test raw bound methods (:168)
-*/
+juzt.test('ordered', isNaN(ch.f()))
 
 juzt.over()
