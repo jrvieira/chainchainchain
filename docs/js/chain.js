@@ -49,6 +49,8 @@ $(function(){
 		
 		$('.link').css({display:'inline-block'});
 
+		$("a#github").attr('href', 'https://github.com/jrvieira/chainchainchain');
+		$("a#rawsource").attr('href', 'https://github.com/jrvieira/chainchainchain/releases/latest');
 
 		$('span.return.value').prepend('<br>');
 		$(window).resize(function(){
