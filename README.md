@@ -1,6 +1,7 @@
 Chainchainchain favors composition over inheritance without breaking JavaScript.
 
 
+
 ## Installation
 
 ```shell
