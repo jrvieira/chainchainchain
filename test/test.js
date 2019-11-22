@@ -53,6 +53,28 @@ let mrol = chain.rol(ch, -1)
 juzt.test('chain.rol returns array', mrol instanceof Array)
 juzt.test('with eldest made youngest', chain.arr(ch)[1] === fo)
 
+let p = Symbol('p')
+ch.p = p
+juzt.test('property defined on origin', ch.p === p && chain.origin(ch).p === p)
+delete ch.p
+juzt.test('property deleted on origin', ch.p === undefined && chain.origin(ch).p === undefined)
+
+chain.set.setchained = true
+juzt.test('-- setchained set to true', chain.set.setchained)
+
+fo.p = null
+zo.p = null
+ch.p = p
+console.log(chain.arr(ch))
+juzt.test('property defined on owners', fo.p === p && zo.p === p)
+juzt.test('and on owners only', chain.origin(ch).p === undefined && xo.p === undefined)
+delete ch.p
+juzt.test('property deleted from owners', fo.p === undefined && zo.p === undefined)
+juzt.test('property deleted from chain', ch.p === undefined)
+
+chain.set.setchained = false
+juzt.test('-- setchained reset to false', chain.set.setchained === false)
+
 // evaluation methods
 
 juzt.test('ch is chain', chain.is(ch))
