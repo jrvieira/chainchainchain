@@ -247,7 +247,7 @@
 					  Ch { … },
 					  { is: 'robot' },
 					  { is: 'being', hi: [Function] } ]</span>
-					chain.rep(joe, cop, branch) <span class="returnvalue">[ { name: 'joe', ch: Ch { … } },
+					chain.rep(joe, cop, branch) <span class="returnvalue">[ { name: 'joe' },
 					  Ch { … },
 					  { is: 'human' },
 					  { is: 'being', hi: [Function] } ]</span>
@@ -303,7 +303,7 @@
 					<br>
 
 					<span class="code">
-					chain.raw(joe, 'is', (props => console.log(props)) <span class="returnvalue">[ undefined, 'cop', 'human', 'being' ]</span>
+					chain.raw(joe, 'is', (props => console.log(props))) <span class="returnvalue">[ undefined, 'cop', 'human', 'being' ]</span>
 					</span>
 
 					<br>
