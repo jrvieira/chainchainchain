@@ -24,7 +24,6 @@ let ch = chain(xo, yo, zo, fo)
 ch.x // 'x'
 ch.y // 'y'
 ch.z // 'z'
-
 ch.f() // 'xyz'
 
 xo.x = yo.y = zo.z = 'chain' // 'chain'
