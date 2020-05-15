@@ -21,13 +21,13 @@ let fo = { f () { return this.x + this.y + this.z } }
 
 let ch = chain(xo, yo, zo, fo)
 
-ch.x + ch.y + ch.z // 'xyz'
+ch.x // 'x'
+ch.y // 'y'
+ch.z // 'z'
 
 ch.f() // 'xyz'
 
 xo.x = yo.y = zo.z = 'chain' // 'chain'
-
-ch.x + ch.y + ch.z // 'chainchainchain'
 
 ch.f() // 'chainchainchain'
 ```
