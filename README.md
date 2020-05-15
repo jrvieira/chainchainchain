@@ -35,7 +35,7 @@ ch.f() // 'chainchainchain'
 
 ## Documentation
 
-[jrvieira.github.io/chainchainchain](http://jrvieira.github.io/chainchainchain)
+[chainchainchain.jrvieira.com](http://jrvieira.github.io/chainchainchain)
 
 
 ###### Licensed under MIT
