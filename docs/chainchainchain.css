@@ -1,6 +1,6 @@
 body {
 	color: #333;
-	font: 11px/20px "Lucida Grande", Lucida, Verdana, sans-serif;
+	font: 14px/20px "Lucida Grande", Lucida, Verdana, sans-serif;
 	background-color: #f7f7f7;
 	margin: 0;
 }
@@ -32,7 +32,7 @@ h1 {
 }
 
 h3 {
-	font-size: 11px;
+	font-size: 14px;
 }
 
 img#logo {
